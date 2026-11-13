@@ -1,7 +1,6 @@
 package logistics.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -37,7 +36,7 @@ public final class PathPanel extends JPanel {
     private final JComboBox<String> toCombo = new JComboBox<>();
     private final JRadioButton mstRadio = new JRadioButton("基于 MST（作业要求）", true);
     private final JRadioButton fullRadio = new JRadioButton("完整网络（对比）", false);
-    private final JLabel costValue = Ui.label("—", 34f, Theme.PRIMARY, Font.BOLD);
+    private final JLabel costValue = Ui.label("—", 28f, Theme.PRIMARY, Font.BOLD);
     private final JLabel metaLabel = Ui.label("选择起点和终点后点击查询", 10.5f, Theme.MUTED, Font.PLAIN);
     private final JLabel modeBadge = new Ui.BadgeLabel("MST 拓扑", Theme.PRIMARY_DARK, Theme.PRIMARY_SOFT);
     private final JTextArea routeArea = new JTextArea();
@@ -70,7 +69,7 @@ public final class PathPanel extends JPanel {
         card.setBorder(new EmptyBorder(14, 18, 14, 18));
 
         JPanel header = Ui.transparent(new BorderLayout());
-        header.add(Ui.cardTitle("任意两仓最短路径", "Dijkstra · 单次查询在毫秒级以内"),
+        header.add(Ui.cardTitle("任意两仓最短路径", "Dijkstra · 显示路径、分段权值和耗时"),
                 BorderLayout.WEST);
         header.add(pickHint, BorderLayout.EAST);
         card.add(header, BorderLayout.NORTH);
@@ -169,7 +168,7 @@ public final class PathPanel extends JPanel {
 
         JPanel costRow = Ui.transparent();
         costRow.setLayout(new BoxLayout(costRow, BoxLayout.X_AXIS));
-        costValue.setFont(Theme.display(Font.BOLD, 34f));
+        costValue.setFont(Theme.display(Font.BOLD, 28f));
         costValue.setAlignmentY(Component.CENTER_ALIGNMENT);
         costRow.add(costValue);
         costRow.add(Ui.gap(8, 0));
@@ -237,7 +236,7 @@ public final class PathPanel extends JPanel {
         card.setBorder(new EmptyBorder(16, 16, 14, 16));
 
         JPanel header = Ui.transparent(new BorderLayout());
-        header.add(Ui.cardTitle("路径可视化", "橙色为查询路径，蓝色为 MST 光纤"), BorderLayout.WEST);
+        header.add(Ui.cardTitle("路径可视化", "橙色为查询路径，绿色为 MST 光纤"), BorderLayout.WEST);
         mapHeader.setHorizontalAlignment(JLabel.RIGHT);
         header.add(mapHeader, BorderLayout.EAST);
         card.add(header, BorderLayout.NORTH);
@@ -273,7 +272,7 @@ public final class PathPanel extends JPanel {
         } else {
             modeNote.setText("当前为完整网络对比模式：路径可能使用非 MST 边，只用于说明两种口径的差异。");
             modeBadge.setText("完整网络");
-            modeBadge.setForeground(new Color(0x0E, 0x74, 0x90));
+            modeBadge.setForeground(Theme.SUCCESS);
         }
         modeBadge.repaint();
     }

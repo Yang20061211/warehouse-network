@@ -31,9 +31,9 @@ public final class MainFrame extends JFrame {
     private final CardLayout cards = new CardLayout();
     private final JPanel cardHost = new JPanel(cards);
     private final Map<String, Ui.NavButton> navButtons = new LinkedHashMap<>();
-    private final JLabel sidebarStats = Ui.label("—", 10.5f, new Color(0xCB, 0xD5, 0xE1), Font.PLAIN);
-    private final JLabel sidebarCost = Ui.label("—", 10.5f, new Color(0xCB, 0xD5, 0xE1), Font.PLAIN);
-    private final JLabel statusLeft = Ui.label("系统就绪 · 请选择左侧功能", 10.5f, Theme.MUTED, Font.PLAIN);
+    private final JLabel sidebarStats = Ui.label("—", 10.5f, Theme.TEXT_SOFT, Font.PLAIN);
+    private final JLabel sidebarCost = Ui.label("—", 10.5f, Theme.TEXT_SOFT, Font.PLAIN);
+    private final JLabel statusLeft = Ui.label("请选择左侧功能", 10.5f, Theme.MUTED, Font.PLAIN);
     private final JLabel statusRight = Ui.label("—", 10.5f, Theme.MUTED, Font.PLAIN);
 
     private OverviewPanel overviewPanel;
@@ -76,35 +76,21 @@ public final class MainFrame extends JFrame {
         header.setBorder(new CompoundBorder(
                 new MatteBorder(0, 0, 1, 0, Theme.BORDER),
                 new EmptyBorder(11, 20, 11, 22)));
-        header.setPreferredSize(new Dimension(0, 68));
+        header.setPreferredSize(new Dimension(0, 62));
 
         JPanel left = Ui.transparent();
         left.setLayout(new BoxLayout(left, BoxLayout.X_AXIS));
-        Ui.LogoMark logo = new Ui.LogoMark(34);
-        logo.setAlignmentY(Component.CENTER_ALIGNMENT);
-        left.add(logo);
-        left.add(Ui.gap(11, 0));
-
-        JPanel texts = Ui.transparent();
-        texts.setLayout(new BoxLayout(texts, BoxLayout.Y_AXIS));
         JLabel title = Ui.label("城际仓网规划系统", 16.5f, Theme.TEXT, Font.BOLD);
-        title.setFont(Theme.display(Font.BOLD, 16.5f));
-        title.setAlignmentX(Component.LEFT_ALIGNMENT);
-        texts.add(title);
-        texts.add(Ui.gap(0, 2));
-        JLabel sub = Ui.label("线性表 · 图 · 最小生成树 · 递进工程实现", 9.6f, Theme.MUTED, Font.PLAIN);
-        sub.setAlignmentX(Component.LEFT_ALIGNMENT);
-        texts.add(sub);
-        texts.setAlignmentY(Component.CENTER_ALIGNMENT);
-        left.add(texts);
+        title.setAlignmentY(Component.CENTER_ALIGNMENT);
+        left.add(title);
         header.add(left, BorderLayout.WEST);
 
         JPanel right = Ui.transparent();
         right.setLayout(new BoxLayout(right, BoxLayout.X_AXIS));
         boolean admin = user.getRole() == Role.ADMIN;
         Ui.BadgeLabel roleBadge = new Ui.BadgeLabel(user.getRole().getLabel(),
-                admin ? Theme.PRIMARY_DARK : new Color(0x0E, 0x74, 0x90),
-                admin ? Theme.PRIMARY_SOFT : new Color(0xEC, 0xFE, 0xFF));
+                admin ? Theme.PRIMARY_DARK : Theme.SUCCESS,
+                admin ? Theme.PRIMARY_SOFT : Theme.SUCCESS_SOFT);
         roleBadge.setAlignmentY(Component.CENTER_ALIGNMENT);
         right.add(roleBadge);
         right.add(Ui.gap(10, 0));
@@ -127,11 +113,13 @@ public final class MainFrame extends JFrame {
     private JPanel buildSidebar() {
         JPanel sidebar = new JPanel();
         sidebar.setBackground(Theme.SIDEBAR);
-        sidebar.setPreferredSize(new Dimension(230, 0));
-        sidebar.setBorder(new EmptyBorder(18, 12, 16, 12));
+        sidebar.setPreferredSize(new Dimension(214, 0));
+        sidebar.setBorder(new CompoundBorder(
+                new MatteBorder(0, 0, 0, 1, Theme.BORDER),
+                new EmptyBorder(18, 12, 16, 12)));
         sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
 
-        JLabel section = Ui.label("功 能 导 航", 9.2f, Theme.SIDEBAR_MUTED, Font.BOLD);
+        JLabel section = Ui.label("功能", 10f, Theme.SIDEBAR_MUTED, Font.BOLD);
         section.setAlignmentX(Component.LEFT_ALIGNMENT);
         section.setBorder(new EmptyBorder(0, 10, 0, 0));
         sidebar.add(section);
@@ -157,7 +145,7 @@ public final class MainFrame extends JFrame {
     private void addNav(JPanel sidebar, String key, String text, Icons.Type iconType) {
         Ui.NavButton button = new Ui.NavButton(text,
                 Icons.of(iconType, Theme.SIDEBAR_TEXT),
-                Icons.of(iconType, Color.WHITE));
+                Icons.of(iconType, Theme.PRIMARY_DARK));
         button.addActionListener(e -> showCard(key));
         sidebar.add(button);
         sidebar.add(Ui.gap(0, 4));
@@ -165,36 +153,24 @@ public final class MainFrame extends JFrame {
     }
 
     private JPanel buildSidebarInfo() {
-        Ui.RoundedPanel card = new Ui.RoundedPanel(new BorderLayout(),
-                new Color(0x10, 0x1B, 0x2E), new Color(0x1E, 0x2B, 0x42), 12);
-        card.setBorder(new EmptyBorder(12, 13, 12, 13));
-        card.setAlignmentX(Component.LEFT_ALIGNMENT);
-        card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 152));
-        card.setPreferredSize(new Dimension(0, 134));
-
         JPanel content = Ui.transparent();
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
-        JLabel title = Ui.label("当前数据规模", 9f, Theme.SIDEBAR_MUTED, Font.PLAIN);
+        content.setBorder(new CompoundBorder(
+                new MatteBorder(1, 0, 0, 0, Theme.BORDER),
+                new EmptyBorder(12, 4, 0, 4)));
+        content.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JLabel title = Ui.label("数据概况", 10f, Theme.SIDEBAR_MUTED, Font.BOLD);
         title.setAlignmentX(Component.LEFT_ALIGNMENT);
         content.add(title);
-        content.add(Ui.gap(0, 7));
-        sidebarStats.setAlignmentX(Component.LEFT_ALIGNMENT);
-        sidebarStats.setFont(Theme.mono(10.5f));
-        content.add(sidebarStats);
-        content.add(Ui.gap(0, 6));
-        JLabel costTitle = Ui.label("MST 总成本", 9f, Theme.SIDEBAR_MUTED, Font.PLAIN);
-        costTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
-        content.add(costTitle);
-        content.add(Ui.gap(0, 3));
-        sidebarCost.setAlignmentX(Component.LEFT_ALIGNMENT);
-        sidebarCost.setFont(Theme.mono(10.5f));
-        content.add(sidebarCost);
         content.add(Ui.gap(0, 8));
-        JLabel version = Ui.label("v0.1.0 · 2026", 8.5f, new Color(0x47, 0x55, 0x69), Font.PLAIN);
-        version.setAlignmentX(Component.LEFT_ALIGNMENT);
-        content.add(version);
-        card.add(content, BorderLayout.CENTER);
-        return card;
+        sidebarStats.setAlignmentX(Component.LEFT_ALIGNMENT);
+        sidebarStats.setFont(Theme.mono(10.3f));
+        content.add(sidebarStats);
+        content.add(Ui.gap(0, 5));
+        sidebarCost.setAlignmentX(Component.LEFT_ALIGNMENT);
+        sidebarCost.setFont(Theme.mono(10.3f));
+        content.add(sidebarCost);
+        return content;
     }
 
     private JPanel buildContent() {

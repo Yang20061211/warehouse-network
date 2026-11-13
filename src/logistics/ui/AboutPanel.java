@@ -35,25 +35,25 @@ public final class AboutPanel extends JPanel {
 
     private static final String HTML = """
             <html><head><style>
-            body { font-family: 'PingFang SC'; color: #334155; font-size: 12px; line-height: 1.6; }
-            h1 { color: #0F172A; font-size: 22px; margin-bottom: 2px; }
-            h2 { color: #0F172A; font-size: 15px; margin-top: 18px; margin-bottom: 6px; }
+            body { font-family: 'PingFang SC'; color: #3B443E; font-size: 12px; line-height: 1.6; }
+            h1 { color: #202622; font-size: 22px; margin-bottom: 2px; }
+            h2 { color: #202622; font-size: 15px; margin-top: 18px; margin-bottom: 6px; }
             p { margin-top: 4px; margin-bottom: 6px; }
             li { margin-bottom: 3px; }
-            .muted { color: #64748B; }
-            .accent { color: #1D4ED8; }
+            .muted { color: #66736A; }
+            .accent { color: #234B3D; }
             table { border-collapse: collapse; margin-top: 6px; }
-            th { background: #F8FAFC; color: #475569; font-size: 11px; text-align: left; }
-            td, th { border: 1px solid #E3E9F2; padding: 6px 8px; font-size: 11.5px; }
-            code { font-family: Menlo; color: #1D4ED8; }
+            th { background: #F7F8F6; color: #4B5B51; font-size: 11px; text-align: left; }
+            td, th { border: 1px solid #D9DED8; padding: 6px 8px; font-size: 11.5px; }
+            code { font-family: Menlo; color: #234B3D; }
             </style></head><body>
 
             <h1>设计说明</h1>
-            <p class="muted">城际仓网规划系统 · 线性表 + 图 + 最小生成树的递进工程实现</p>
+            <p class="muted">城际仓网规划系统 · 数据结构课程设计</p>
 
             <h2>一、场景与目标</h2>
             <p>某物流公司在 30 个城市之间铺设光纤专线：在保证全网连通的前提下让总成本最低，
-            并为日常配送提供“任意两仓最短路径”的毫秒级查询工具。系统用
+            并提供任意两仓之间的最短路径查询。系统用
             <b>双向循环链表</b>管理城市，用<b>邻接表</b>存储带权无向图，用
             <b>Prim / Kruskal</b> 求最小生成树，再用 <b>Dijkstra</b> 在生成树拓扑上查询路径。</p>
 
@@ -88,11 +88,11 @@ public final class AboutPanel extends JPanel {
             <p>按作业要求，默认<b>基于最小生成树的拓扑</b>运行 Dijkstra：树上两点路径唯一，
             结果稳定、便于统一解释。完整网络模式仅用于对比：它可能选出更短的直达路径，
             但那些边不一定在 MST 中。查询内部重复执行 250 次取平均，实测平均耗时在
-            <b class="accent">微秒级</b>，远低于“毫秒级响应”的要求。</p>
+            <b class="accent">微秒级</b>。具体耗时会随机器和 JVM 状态变化。</p>
 
             <h2>五、演示账号</h2>
             <p>管理员：<code>admin / admin123</code>　查询员：<code>viewer / viewer123</code><br>
-            <span class="muted">退出登录后可切换角色。详细设计推导、完整测试数据与运行截图见《实验报告.pdf》。</span></p>
+            <span class="muted">退出登录后可切换角色。详细设计、测试数据和运行截图见仓库中的《实验报告》。</span></p>
 
             </body></html>
             """;

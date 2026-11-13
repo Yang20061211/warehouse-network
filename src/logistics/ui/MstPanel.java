@@ -40,7 +40,7 @@ public final class MstPanel extends JPanel {
         setLayout(new BorderLayout(0, 14));
 
         primTile = new Ui.StatTile("Prim 总成本", "—", "O(V²) · 稠密图更优", Theme.PRIMARY);
-        kruskalTile = new Ui.StatTile("Kruskal 总成本", "—", "O(E log E) · 稀疏图更优", new Color(0x0E, 0x74, 0x90));
+        kruskalTile = new Ui.StatTile("Kruskal 总成本", "—", "O(E log E) · 稀疏图更优", Theme.TEXT_SOFT);
         checkTile = new Ui.StatTile("一致性校验", "—", "同一张图总权值必然相同", Theme.SUCCESS);
         rebuildTile = new Ui.StatTile("重建耗时", "—", "完全图 + 两棵 MST", Theme.WARNING);
         primTime = Ui.label("—", 10f, Theme.MUTED, Font.PLAIN);
@@ -58,14 +58,14 @@ public final class MstPanel extends JPanel {
         tables.add(buildTableCard("Prim", "从起点出发，每次选距当前树最近的顶点",
                 primTime, primModel, Theme.PRIMARY));
         tables.add(buildTableCard("Kruskal", "边按权值升序，并查集判环，选够 V-1 条为止",
-                kruskalTime, kruskalModel, new Color(0x0E, 0x74, 0x90)));
+                kruskalTime, kruskalModel, Theme.TEXT_SOFT));
         add(tables, BorderLayout.CENTER);
 
-        Ui.RoundedPanel note = new Ui.RoundedPanel(new BorderLayout(), new Color(0xF8, 0xFA, 0xFD),
-                Theme.BORDER, 12);
+        Ui.RoundedPanel note = new Ui.RoundedPanel(new BorderLayout(), new Color(0xF7, 0xF8, 0xF6),
+                Theme.BORDER, 6);
         note.setBorder(new EmptyBorder(11, 15, 11, 15));
-        JLabel noteText = Ui.label("两种算法选中的边可能不同，但总权值必然相同。"
-                + "地图与最短路径使用 Prim 生成树的拓扑；耗时数据来自各算法内部计时。",
+        JLabel noteText = Ui.label("两种算法选中的边可能不同，但总权值相同。"
+                + "地图和最短路径使用 Prim 树；耗时取自算法内部计时。",
                 10.3f, Theme.MUTED, Font.PLAIN);
         note.add(noteText, BorderLayout.CENTER);
         note.setPreferredSize(new Dimension(0, 44));

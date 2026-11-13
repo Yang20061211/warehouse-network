@@ -30,7 +30,7 @@ public final class AdjacencyPanel extends JPanel {
         card.setBorder(new EmptyBorder(16, 18, 16, 18));
 
         JPanel header = Ui.transparent(new BorderLayout());
-        JPanel titlePanel = Ui.cardTitle("邻接表存储结构", "顶点数组 + 边结点单链表 · 无向图的每条边存两次");
+        JPanel titlePanel = Ui.cardTitle("邻接表存储结构", "顶点数组与边结点链表，每条无向边存两次");
         header.add(titlePanel, BorderLayout.WEST);
 
         JPanel actions = Ui.transparent();
@@ -53,7 +53,7 @@ public final class AdjacencyPanel extends JPanel {
 
         area.setEditable(false);
         area.setFont(Theme.mono(11.3f));
-        area.setBackground(new Color(0xFB, 0xFC, 0xFE));
+        area.setBackground(new Color(0xFA, 0xFB, 0xF9));
         area.setForeground(Theme.TEXT_SOFT);
         area.setBorder(new EmptyBorder(12, 14, 12, 14));
         area.setTabSize(4);
@@ -63,8 +63,8 @@ public final class AdjacencyPanel extends JPanel {
         card.add(areaWrap, BorderLayout.CENTER);
 
         JPanel footer = Ui.transparent(new BorderLayout());
-        JLabel hint = Ui.label("提示：每条边 (u,v,w) 同时挂在 u 与 v 的链表中；"
-                + "共 435 条无向边、870 个边结点。", 9.8f, Theme.FAINT, Font.PLAIN);
+        JLabel hint = Ui.label("每条边同时挂在两个端点；当前数据为 435 条无向边、870 个边结点。",
+                9.8f, Theme.FAINT, Font.PLAIN);
         footer.add(hint, BorderLayout.WEST);
         statsLabel.setHorizontalAlignment(JLabel.RIGHT);
         footer.add(statsLabel, BorderLayout.EAST);

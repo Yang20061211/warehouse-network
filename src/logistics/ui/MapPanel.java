@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -29,7 +28,7 @@ import logistics.model.Graph;
  * 城市网络地图（自绘）。
  *
  * <p>用经纬度投影把 30 个城市画在一张示意中国地图上：
- * 蓝色实线是最小生成树，灰色细线是完整网络，橙色为最短路径。
+ * 绿色实线是最小生成树，灰色细线是完整网络，橙色为最短路径。
  * 标注采用简单的碰撞规避，尽量不重叠。</p>
  */
 public final class MapPanel extends JPanel {
@@ -41,16 +40,15 @@ public final class MapPanel extends JPanel {
     /** 中纬度经度方向的压缩系数，让地图比例更接近真实。 */
     private static final double LON_FACTOR = Math.cos(Math.toRadians(35));
 
-    private static final Color OCEAN_TOP = new Color(0xFB, 0xFD, 0xFF);
-    private static final Color OCEAN_BOTTOM = new Color(0xEC, 0xF4, 0xFD);
+    private static final Color OCEAN = new Color(0xF7, 0xF9, 0xF6);
     private static final Color LAND = new Color(0xF4, 0xF2, 0xEA);
-    private static final Color LAND_EDGE = new Color(0xD6, 0xDE, 0xE9);
-    private static final Color GRID = new Color(0xDF, 0xE8, 0xF4);
-    private static final Color MST = new Color(0x25, 0x63, 0xEB);
-    private static final Color NODE = new Color(0x1D, 0x4E, 0xD8);
-    private static final Color PATH = new Color(0xEA, 0x58, 0x0C);
-    private static final Color START = new Color(0x05, 0x96, 0x69);
-    private static final Color END = new Color(0xDC, 0x26, 0x26);
+    private static final Color LAND_EDGE = new Color(0xD5, 0xDB, 0xD5);
+    private static final Color GRID = new Color(0xDD, 0xE2, 0xDD);
+    private static final Color MST = Theme.PRIMARY;
+    private static final Color NODE = Theme.PRIMARY_DARK;
+    private static final Color PATH = Theme.WARNING;
+    private static final Color START = Theme.SUCCESS;
+    private static final Color END = Theme.DANGER;
 
     private final NetworkService service;
 
@@ -172,9 +170,9 @@ public final class MapPanel extends JPanel {
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-        g2.clip(new RoundRectangle2D.Double(0, 0, w, h, 18, 18));
+        g2.clip(new RoundRectangle2D.Double(0, 0, w, h, 8, 8));
 
-        g2.setPaint(new GradientPaint(0, 0, OCEAN_TOP, 0, h, OCEAN_BOTTOM));
+        g2.setColor(OCEAN);
         g2.fillRect(0, 0, w, h);
 
         updateTransform();
@@ -212,13 +210,13 @@ public final class MapPanel extends JPanel {
     private void drawGraticule(Graphics2D g2, int w, int h) {
         g2.setStroke(new BasicStroke(1f));
         g2.setFont(Theme.font(Font.PLAIN, 9f));
-        g2.setColor(new Color(0x8B, 0xA7, 0xC7, 70));
+        g2.setColor(Theme.alpha(Theme.MUTED, 70));
         for (double lon = 75; lon <= 135; lon += 5) {
             int x = xOf(lon);
             g2.setColor(GRID);
             g2.drawLine(x, yOf(MAX_LAT), x, yOf(MIN_LAT));
             if (((int) lon) % 15 == 0) {
-                g2.setColor(new Color(0x8B, 0xA7, 0xC7, 120));
+                g2.setColor(Theme.alpha(Theme.MUTED, 120));
                 String text = (int) lon + "°E";
                 g2.drawString(text, x - g2.getFontMetrics().stringWidth(text) / 2,
                         yOf(MIN_LAT) + 18);
@@ -229,12 +227,12 @@ public final class MapPanel extends JPanel {
             g2.setColor(GRID);
             g2.drawLine(xOf(MIN_LON), y, xOf(MAX_LON), y);
             if (((int) lat) % 10 == 0) {
-                g2.setColor(new Color(0x8B, 0xA7, 0xC7, 120));
+                g2.setColor(Theme.alpha(Theme.MUTED, 120));
                 int labelX = Math.max(4, xOf(MIN_LON) - 34);
                 g2.drawString((int) lat + "°N", labelX, y + 4);
             }
         }
-        g2.setColor(new Color(0x8B, 0xA7, 0xC7, 90));
+        g2.setColor(Theme.alpha(Theme.MUTED, 90));
         g2.drawString("黄海", xOf(123.5), yOf(35.0));
         g2.drawString("东海", xOf(125.0), yOf(28.0));
         g2.drawString("南海", xOf(113.0), yOf(19.0));
@@ -280,7 +278,7 @@ public final class MapPanel extends JPanel {
         g2.draw(taiwan);
 
         // 轻微的图幅边框
-        g2.setColor(new Color(0xDB, 0xE4, 0xF0, 160));
+        g2.setColor(Theme.alpha(Theme.BORDER_STRONG, 160));
         g2.setStroke(new BasicStroke(1f));
         g2.draw(new RoundRectangle2D.Double(xOf(MIN_LON) - 8, yOf(MAX_LAT) - 8,
                 (MAX_LON - MIN_LON) * LON_FACTOR * scale + 16,
@@ -290,7 +288,7 @@ public final class MapPanel extends JPanel {
     private void drawEdges(Graphics2D g2) {
         Graph graph = service.getGraph();
         if (showFullNetwork) {
-            g2.setColor(new Color(0x94, 0xA3, 0xB8, 52));
+            g2.setColor(Theme.alpha(Theme.FAINT, 52));
             g2.setStroke(new BasicStroke(0.75f));
             for (Graph.UndirectedEdge edge : graph.edges()) {
                 g2.drawLine(xOf(graph.city(edge.getU()).getLon()),
@@ -308,7 +306,7 @@ public final class MapPanel extends JPanel {
                     xOf(graph.city(edge.getV()).getLon()), yOf(graph.city(edge.getV()).getLat()));
         }
         g2.setStroke(new BasicStroke(2.1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-        g2.setColor(new Color(37, 99, 235, 220));
+        g2.setColor(Theme.alpha(MST, 220));
         for (Graph.UndirectedEdge edge : service.getPrimResult().getEdges()) {
             g2.drawLine(xOf(graph.city(edge.getU()).getLon()), yOf(graph.city(edge.getU()).getLat()),
                     xOf(graph.city(edge.getV()).getLon()), yOf(graph.city(edge.getV()).getLat()));
@@ -320,9 +318,9 @@ public final class MapPanel extends JPanel {
             return;
         }
         Graph graph = service.getGraph();
-        // 外发光 + 橙色主线
+        // 浅色外沿 + 橙色主线
         g2.setStroke(new BasicStroke(9f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-        g2.setColor(new Color(234, 88, 12, 45));
+        g2.setColor(Theme.alpha(PATH, 45));
         drawPathSegments(g2, graph);
         g2.setStroke(new BasicStroke(4.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         g2.setColor(PATH);
@@ -367,12 +365,12 @@ public final class MapPanel extends JPanel {
             boolean isHot = i == selected || i == hover;
 
             if (isHot) {
-                g2.setColor(new Color(37, 99, 235, 30));
+                g2.setColor(Theme.alpha(NODE, 30));
                 g2.fillOval(x - 11, y - 11, 22, 22);
             }
             if (isStart || isEnd) {
                 Color ring = isStart ? START : END;
-                g2.setColor(new Color(ring.getRed(), ring.getGreen(), ring.getBlue(), 45));
+                g2.setColor(Theme.alpha(ring, 45));
                 g2.fillOval(x - 12, y - 12, 24, 24);
                 g2.setColor(Color.WHITE);
                 g2.fillOval(x - 7, y - 7, 14, 14);
@@ -459,11 +457,11 @@ public final class MapPanel extends JPanel {
             placed.add(chosen);
 
             boolean isPath = pathSet.contains(i);
-            Color color = i == from ? new Color(0x04, 0x78, 0x57)
-                    : i == to ? new Color(0xB9, 0x1C, 0x1C)
-                    : isPath ? new Color(0xC2, 0x41, 0x0C)
+            Color color = i == from ? START
+                    : i == to ? END
+                    : isPath ? PATH
                     : i == hover || i == selected ? Theme.PRIMARY_DARK
-                    : new Color(0x47, 0x55, 0x69);
+                    : Theme.TEXT_SOFT;
             int baseline = chosen.y + fm.getAscent();
             g2.setColor(new Color(255, 255, 255, 235));
             for (int dx = -1; dx <= 1; dx++) {
@@ -492,7 +490,7 @@ public final class MapPanel extends JPanel {
     private void drawCompass(Graphics2D g2, int w, int h) {
         int x = w - 34;
         int y = 34;
-        g2.setColor(new Color(0x64, 0x74, 0x8B, 150));
+        g2.setColor(Theme.alpha(Theme.MUTED, 150));
         g2.setStroke(new BasicStroke(1.4f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         g2.drawLine(x, y + 9, x, y - 9);
         g2.drawLine(x, y - 9, x - 4, y - 3);
@@ -507,7 +505,7 @@ public final class MapPanel extends JPanel {
         int x2 = w - 28;
         int x1 = (int) Math.round(x2 - px);
         int y = h - 26;
-        g2.setColor(new Color(0x64, 0x74, 0x8B, 130));
+        g2.setColor(Theme.alpha(Theme.MUTED, 130));
         g2.setStroke(new BasicStroke(1.4f));
         g2.drawLine(x1, y, x2, y);
         g2.drawLine(x1, y - 4, x1, y + 4);
@@ -515,7 +513,7 @@ public final class MapPanel extends JPanel {
         g2.setFont(Theme.font(Font.PLAIN, 9.5f));
         String text = "≈ 500 km";
         g2.drawString(text, x1 + (int) ((px - g2.getFontMetrics().stringWidth(text)) / 2), y - 7);
-        g2.setColor(new Color(0x94, 0xA3, 0xB8, 120));
+        g2.setColor(Theme.alpha(Theme.FAINT, 120));
         g2.drawString("示意图 · 按经纬度投影", 22, h - 24);
     }
 
@@ -535,11 +533,11 @@ public final class MapPanel extends JPanel {
         int th = 44;
         int x = Math.min(w - tw - 10, mouseX + 14);
         int y = Math.min(h - th - 10, mouseY + 16);
-        g2.setColor(new Color(15, 23, 42, 235));
+        g2.setColor(Theme.alpha(Theme.TEXT, 235));
         g2.fillRoundRect(x, y, tw, th, 10, 10);
         g2.setColor(Color.WHITE);
         g2.drawString(text, x + 11, y + 18);
-        g2.setColor(new Color(203, 213, 225));
+        g2.setColor(new Color(0xD9, 0xDE, 0xD8));
         g2.setFont(Theme.font(Font.PLAIN, 9.5f));
         g2.drawString(sub, x + 11, y + 33);
     }

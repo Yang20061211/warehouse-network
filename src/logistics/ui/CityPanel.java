@@ -68,7 +68,7 @@ public final class CityPanel extends JPanel {
         title.setAlignmentX(Component.LEFT_ALIGNMENT);
         titles.add(title);
         titles.add(Ui.gap(0, 3));
-        JLabel sub = Ui.label("增删改查会立即重建完全图与 MST；数据自动写入 data/cities.txt",
+        JLabel sub = Ui.label("修改后重建图与 MST，并保存到 data/cities.txt",
                 10.8f, Theme.MUTED, Font.PLAIN);
         sub.setAlignmentX(Component.LEFT_ALIGNMENT);
         titles.add(sub);
@@ -175,7 +175,7 @@ public final class CityPanel extends JPanel {
 
         sortedArea.setEditable(false);
         sortedArea.setFont(Theme.mono(11.2f));
-        sortedArea.setBackground(new Color(0xFB, 0xFC, 0xFE));
+        sortedArea.setBackground(new Color(0xFA, 0xFB, 0xF9));
         sortedArea.setForeground(Theme.TEXT_SOFT);
         sortedArea.setBorder(new EmptyBorder(10, 12, 10, 12));
         sortedArea.setLineWrap(false);

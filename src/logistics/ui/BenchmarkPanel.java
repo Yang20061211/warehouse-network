@@ -57,7 +57,7 @@ public final class BenchmarkPanel extends JPanel {
         setLayout(new BorderLayout(0, 14));
 
         primTile = new Ui.StatTile("Prim 平均耗时", "—", "O(V²) · 120 次平均", Theme.PRIMARY);
-        kruskalTile = new Ui.StatTile("Kruskal 平均耗时", "—", "O(E log E) · 120 次平均", new Color(0x0E, 0x74, 0x90));
+        kruskalTile = new Ui.StatTile("Kruskal 平均耗时", "—", "O(E log E) · 120 次平均", Theme.MUTED);
         winnerTile = new Ui.StatTile("当前图更快", "—", "同一张完全图", Theme.SUCCESS);
         dijkstraTile = new Ui.StatTile("全点对 Dijkstra", "—", "435 组点对 · 20 轮", Theme.WARNING);
 
@@ -175,7 +175,7 @@ public final class BenchmarkPanel extends JPanel {
         card.setBorder(new EmptyBorder(15, 16, 15, 16));
 
         JPanel header = Ui.transparent(new BorderLayout());
-        header.add(Ui.cardTitle("耗时对比", "对数纵轴 · 蓝色 Prim / 青色 Kruskal"), BorderLayout.WEST);
+        header.add(Ui.cardTitle("耗时对比", "对数纵轴 · 绿色 Prim / 灰色 Kruskal"), BorderLayout.WEST);
         JLabel hint = Ui.label("单位：ms", 9.8f, Theme.FAINT, Font.PLAIN);
         header.add(hint, BorderLayout.EAST);
         card.add(header, BorderLayout.NORTH);
@@ -399,7 +399,7 @@ public final class BenchmarkPanel extends JPanel {
                     continue;
                 }
                 int y = top + (int) Math.round((logMax - Math.log10(value)) / (logMax - logMin) * plotH);
-                g2.setColor(new Color(0xE6, 0xEC, 0xF5));
+                g2.setColor(Theme.BORDER);
                 g2.drawLine(left, y, left + plotW, y);
                 g2.setColor(Theme.FAINT);
                 String label = value >= 1 ? String.format(Locale.ROOT, "%.0f", value)
@@ -407,7 +407,7 @@ public final class BenchmarkPanel extends JPanel {
                         : String.format(Locale.ROOT, "%.3f", value);
                 g2.drawString(label, left - 8 - g2.getFontMetrics().stringWidth(label), y + 3);
             }
-            g2.setColor(new Color(0xD5, 0xDF, 0xEC));
+            g2.setColor(Theme.BORDER_STRONG);
             g2.drawLine(left, top + plotH, left + plotW, top + plotH);
 
             int groupW = plotW / rows.size();
@@ -418,7 +418,7 @@ public final class BenchmarkPanel extends JPanel {
                 drawBar(g2, center - barW - 3, barW, row.primAvgMs,
                         Theme.PRIMARY, top, plotH, logMin, logMax);
                 drawBar(g2, center + 3, barW, row.kruskalAvgMs,
-                        new Color(0x0E, 0x74, 0x90), top, plotH, logMin, logMax);
+                        Theme.MUTED, top, plotH, logMin, logMax);
                 g2.setColor(Theme.MUTED);
                 g2.setFont(Theme.font(Font.PLAIN, 9.5f));
                 String label = row.vertices + " 城";
@@ -437,7 +437,7 @@ public final class BenchmarkPanel extends JPanel {
             g2.setColor(Theme.MUTED);
             g2.setFont(Theme.font(Font.PLAIN, 9.5f));
             g2.drawString("Prim", left + 14, top - 11);
-            g2.setColor(new Color(0x0E, 0x74, 0x90));
+            g2.setColor(Theme.MUTED);
             g2.fillRect(left + 56, top - 20, 9, 9);
             g2.setColor(Theme.MUTED);
             g2.drawString("Kruskal", left + 70, top - 11);

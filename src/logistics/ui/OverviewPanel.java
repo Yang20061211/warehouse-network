@@ -50,7 +50,7 @@ public final class OverviewPanel extends JPanel {
         JPanel mapCard = Ui.card();
         mapCard.setBorder(new EmptyBorder(16, 16, 14, 16));
         JPanel header = Ui.transparent(new BorderLayout());
-        header.add(Ui.cardTitle("城市网络拓扑", "仓储节点按经纬度投影 · 蓝色实线为最小生成树光纤"), BorderLayout.WEST);
+        header.add(Ui.cardTitle("城市网络拓扑", "城市按经纬度投影，实线表示最小生成树"), BorderLayout.WEST);
 
         JPanel controls = Ui.transparent();
         controls.setLayout(new BoxLayout(controls, BoxLayout.X_AXIS));
@@ -72,7 +72,7 @@ public final class OverviewPanel extends JPanel {
         add(mapCard, BorderLayout.CENTER);
 
         cityTile = new Ui.StatTile("城市节点", "—", "双向循环链表", Theme.PRIMARY);
-        edgeTile = new Ui.StatTile("光纤边", "—", "邻接表存储", new Color(0x0E, 0x74, 0x90));
+        edgeTile = new Ui.StatTile("光纤边", "—", "邻接表存储", Theme.TEXT_SOFT);
         mstEdgeTile = new Ui.StatTile("MST 边数", "—", "V − 1", Theme.SUCCESS);
         costTile = new Ui.StatTile("MST 总成本", "—", "距离单位 ≈ ×111 km", Theme.WARNING);
         averageLabel = Ui.label("—", 10.5f, Theme.MUTED, Font.PLAIN);
@@ -110,10 +110,10 @@ public final class OverviewPanel extends JPanel {
 
     private JPanel buildLegend() {
         JPanel legend = Ui.transparent(new FlowLayout(FlowLayout.LEFT, 18, 6));
-        legend.add(legendItem(Ui.legendLine(new Color(0x25, 0x63, 0xEB), 26), "MST 光纤"));
-        legend.add(legendItem(Ui.legendLine(new Color(0x94, 0xA3, 0xB8, 120), 26), "完整网络"));
-        legend.add(legendItem(Ui.legendLine(new Color(0xEA, 0x58, 0x0C), 26), "查询路径"));
-        legend.add(legendItem(Ui.legendDot(Color.WHITE, new Color(0x1D, 0x4E, 0xD8)), "城市节点"));
+        legend.add(legendItem(Ui.legendLine(Theme.PRIMARY, 26), "MST 光纤"));
+        legend.add(legendItem(Ui.legendLine(Theme.alpha(Theme.FAINT, 120), 26), "完整网络"));
+        legend.add(legendItem(Ui.legendLine(Theme.WARNING, 26), "查询路径"));
+        legend.add(legendItem(Ui.legendDot(Color.WHITE, Theme.PRIMARY_DARK), "城市节点"));
         return legend;
     }
 
@@ -132,7 +132,7 @@ public final class OverviewPanel extends JPanel {
         card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 300));
 
         JPanel title = Ui.transparent(new BorderLayout());
-        title.add(Ui.cardTitle("网络概况", "实时统计 · 随城市变更自动刷新"), BorderLayout.WEST);
+        title.add(Ui.cardTitle("网络概况", "随城市数据自动更新"), BorderLayout.WEST);
         title.setAlignmentX(Component.LEFT_ALIGNMENT);
         card.add(title);
         card.add(Ui.gap(0, 13));
@@ -176,7 +176,7 @@ public final class OverviewPanel extends JPanel {
 
     private JPanel buildTipCard() {
         Ui.RoundedPanel card = new Ui.RoundedPanel(new BorderLayout(), Theme.PRIMARY_SOFT,
-                new Color(0xD9, 0xE6, 0xFF), 12);
+                Theme.BORDER_STRONG, 6);
         card.setBorder(new EmptyBorder(14, 16, 14, 16));
         card.setAlignmentX(Component.LEFT_ALIGNMENT);
         card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 150));
@@ -184,14 +184,13 @@ public final class OverviewPanel extends JPanel {
         JLabel title = Ui.label("查询说明", 11.5f, Theme.PRIMARY_DARK, Font.BOLD);
         card.add(title, BorderLayout.NORTH);
         JTextArea text = new JTextArea(
-                "最短路径默认基于 Prim 生成的最小生成树拓扑，符合作业要求；"
-                        + "在「最短路径」页可切换完整网络做对比。");
+                "最短路径默认在 Prim 生成的最小生成树上查询，可在「最短路径」页切换完整网络。");
         text.setEditable(false);
         text.setOpaque(false);
         text.setLineWrap(true);
         text.setWrapStyleWord(true);
         text.setFont(Theme.font(Font.PLAIN, 10.3f));
-        text.setForeground(new Color(0x1E, 0x40, 0xAF));
+        text.setForeground(Theme.PRIMARY_DARK);
         text.setBorder(new EmptyBorder(6, 0, 0, 0));
         card.add(text, BorderLayout.CENTER);
         return card;
