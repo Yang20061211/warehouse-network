@@ -8,7 +8,6 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Consumer;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
@@ -30,7 +29,6 @@ import logistics.model.City;
 public final class PathPanel extends JPanel {
 
     private final NetworkService service;
-    private final Consumer<String> status;
 
     private final JComboBox<String> fromCombo = new JComboBox<>();
     private final JComboBox<String> toCombo = new JComboBox<>();
@@ -40,7 +38,6 @@ public final class PathPanel extends JPanel {
     private final JLabel metaLabel = Ui.label("选择起点和终点后点击查询", 10.5f, Theme.MUTED, Font.PLAIN);
     private final JLabel modeBadge = new Ui.BadgeLabel("MST 拓扑", Theme.PRIMARY_DARK, Theme.PRIMARY_SOFT);
     private final JTextArea routeArea = new JTextArea();
-    private final JTextArea modeNote = new JTextArea();
     private final SegmentModel segmentModel = new SegmentModel();
     private final MapPanel map;
     private final JLabel mapHeader = Ui.label("尚未查询", 11f, Theme.MUTED, Font.PLAIN);
@@ -50,9 +47,8 @@ public final class PathPanel extends JPanel {
     private boolean pickFrom = true;
     private boolean refreshing;
 
-    public PathPanel(NetworkService service, Consumer<String> status) {
+    public PathPanel(NetworkService service) {
         this.service = service;
-        this.status = status;
         setOpaque(false);
         setLayout(new BorderLayout(0, 14));
 
@@ -100,11 +96,11 @@ public final class PathPanel extends JPanel {
         styleRadio(mstRadio);
         styleRadio(fullRadio);
         mstRadio.addActionListener(e -> {
-            updateModeNote();
+            updateModeBadge();
             runQuery();
         });
         fullRadio.addActionListener(e -> {
-            updateModeNote();
+            updateModeBadge();
             runQuery();
         });
         JPanel modes = new JPanel(new GridLayout(1, 2, 6, 0));
@@ -217,16 +213,7 @@ public final class PathPanel extends JPanel {
         segments.add(Ui.scroll(table), BorderLayout.CENTER);
         card.add(segments, BorderLayout.CENTER);
 
-        modeNote.setEditable(false);
-        modeNote.setOpaque(false);
-        modeNote.setLineWrap(true);
-        modeNote.setWrapStyleWord(true);
-        modeNote.setFont(Theme.font(Font.PLAIN, 11f));
-        modeNote.setForeground(Theme.FAINT);
-        modeNote.setRows(2);
-        card.add(modeNote, BorderLayout.SOUTH);
-
-        updateModeNote();
+        updateModeBadge();
         return card;
     }
 
@@ -247,8 +234,6 @@ public final class PathPanel extends JPanel {
         card.add(wrap, BorderLayout.CENTER);
 
         JPanel footer = Ui.transparent(new BorderLayout());
-        footer.add(Ui.label("点击地图节点：第一次设起点，第二次设终点并自动查询。",
-                9.8f, Theme.FAINT, Font.PLAIN), BorderLayout.WEST);
         JPanel legend = Ui.transparent();
         legend.setLayout(new BoxLayout(legend, BoxLayout.X_AXIS));
         legend.add(Ui.legendLine(Theme.SUCCESS, 22));
@@ -263,14 +248,11 @@ public final class PathPanel extends JPanel {
         return card;
     }
 
-    private void updateModeNote() {
+    private void updateModeBadge() {
         if (mstRadio.isSelected()) {
-            modeNote.setText("当前基于 Prim 最小生成树的拓扑：树上两点路径唯一，符合作业要求；"
-                    + "代价可能高于完整网络的直达最短路径。");
             modeBadge.setText("MST 拓扑");
             modeBadge.setForeground(Theme.PRIMARY_DARK);
         } else {
-            modeNote.setText("当前为完整网络对比模式：路径可能使用非 MST 边，只用于说明两种口径的差异。");
             modeBadge.setText("完整网络");
             modeBadge.setForeground(Theme.SUCCESS);
         }
@@ -388,10 +370,6 @@ public final class PathPanel extends JPanel {
             map.setFromTo(result.getSource(), result.getTarget());
             mapHeader.setText(from + " → " + to + "  ·  " + Ui.weight(result.getTotalWeight()));
             pickHint.setText("也可以直接点击右侧地图选择起点与终点");
-            status.accept(String.format(Locale.ROOT,
-                    "已查询 %s → %s：总代价 %s，%d 段，%d 次平均 %s",
-                    from, to, Ui.weight(result.getTotalWeight()), result.getEdgeCount(),
-                    stats.runs, Ui.millis(stats.averageMillis)));
         } catch (RuntimeException ex) {
             Ui.error(this, ex.getMessage());
         }
@@ -415,7 +393,7 @@ public final class PathPanel extends JPanel {
         mapHeader.setText("尚未查询");
         pickFrom = true;
         pickHint.setText("也可以直接点击右侧地图选择起点与终点");
-        updateModeNote();
+        updateModeBadge();
     }
 
     /** 供截图脚本调用。 */
@@ -427,7 +405,7 @@ public final class PathPanel extends JPanel {
         } else {
             mstRadio.setSelected(true);
         }
-        updateModeNote();
+        updateModeBadge();
         runQuery();
     }
 

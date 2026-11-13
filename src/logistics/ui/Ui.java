@@ -353,11 +353,14 @@ public final class Ui {
             valueLabel.setFont(Theme.display(Font.BOLD, 21f));
             valueLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
             add(valueLabel);
-            add(gap(0, 3));
-
-            hintLabel = label(hint, 10.2f, Theme.FAINT, Font.PLAIN);
-            hintLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-            add(hintLabel);
+            if (hint == null || hint.isBlank()) {
+                hintLabel = null;
+            } else {
+                add(gap(0, 3));
+                hintLabel = label(hint, 10.2f, Theme.FAINT, Font.PLAIN);
+                hintLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+                add(hintLabel);
+            }
         }
 
         public void setValue(String value) {
@@ -365,7 +368,10 @@ public final class Ui {
         }
 
         public void setHint(String hint) {
-            hintLabel.setText(hint);
+            if (hintLabel != null) {
+                hintLabel.setText(hint == null ? "" : hint);
+                hintLabel.setVisible(hint != null && !hint.isBlank());
+            }
         }
 
         public void setValueColor(Color color) {

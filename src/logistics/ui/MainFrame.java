@@ -20,7 +20,7 @@ import logistics.app.Role;
 import logistics.app.User;
 
 /**
- * 主窗口：左侧导航 + 右侧功能页 + 顶部身份区 + 底部状态栏。
+ * 主窗口：左侧导航 + 右侧功能页 + 顶部身份区。
  * 管理员与查询员看到不同的导航与操作权限。
  */
 public final class MainFrame extends JFrame {
@@ -33,8 +33,6 @@ public final class MainFrame extends JFrame {
     private final Map<String, Ui.NavButton> navButtons = new LinkedHashMap<>();
     private final JLabel sidebarStats = Ui.label("—", 10.5f, Theme.TEXT_SOFT, Font.PLAIN);
     private final JLabel sidebarCost = Ui.label("—", 10.5f, Theme.TEXT_SOFT, Font.PLAIN);
-    private final JLabel statusLeft = Ui.label("请选择左侧功能", 10.5f, Theme.MUTED, Font.PLAIN);
-    private final JLabel statusRight = Ui.label("—", 10.5f, Theme.MUTED, Font.PLAIN);
 
     private OverviewPanel overviewPanel;
     private CityPanel cityPanel;
@@ -66,7 +64,6 @@ public final class MainFrame extends JFrame {
         root.add(buildHeader(), BorderLayout.NORTH);
         root.add(buildSidebar(), BorderLayout.WEST);
         root.add(buildContent(), BorderLayout.CENTER);
-        root.add(buildStatus(), BorderLayout.SOUTH);
         return root;
     }
 
@@ -180,14 +177,14 @@ public final class MainFrame extends JFrame {
         overviewPanel = new OverviewPanel(service);
         cardHost.add(overviewPanel, "overview");
         if (user.getRole().canEdit()) {
-            cityPanel = new CityPanel(service, this::setStatus);
+            cityPanel = new CityPanel(service);
             cardHost.add(cityPanel, "cities");
         }
         adjacencyPanel = new AdjacencyPanel(service);
         cardHost.add(adjacencyPanel, "adjacency");
         mstPanel = new MstPanel(service);
         cardHost.add(mstPanel, "mst");
-        pathPanel = new PathPanel(service, this::setStatus);
+        pathPanel = new PathPanel(service);
         cardHost.add(pathPanel, "path");
         if (user.getRole().canEdit()) {
             benchmarkPanel = new BenchmarkPanel(service);
@@ -198,19 +195,6 @@ public final class MainFrame extends JFrame {
         return cardHost;
     }
 
-    private JPanel buildStatus() {
-        JPanel status = new JPanel(new BorderLayout());
-        status.setBackground(Color.WHITE);
-        status.setBorder(new CompoundBorder(
-                new MatteBorder(1, 0, 0, 0, Theme.BORDER),
-                new EmptyBorder(7, 20, 7, 20)));
-        statusLeft.setFont(Theme.font(Font.PLAIN, 11f));
-        statusRight.setFont(Theme.font(Font.PLAIN, 11f));
-        status.add(statusLeft, BorderLayout.WEST);
-        status.add(statusRight, BorderLayout.EAST);
-        return status;
-    }
-
     public void showCard(String key) {
         if (!navButtons.containsKey(key)) {
             return;
@@ -219,10 +203,6 @@ public final class MainFrame extends JFrame {
         for (Map.Entry<String, Ui.NavButton> entry : navButtons.entrySet()) {
             entry.getValue().setActive(entry.getKey().equals(key));
         }
-    }
-
-    public void setStatus(String text) {
-        statusLeft.setText(text);
     }
 
     public void refreshAll() {
@@ -245,12 +225,9 @@ public final class MainFrame extends JFrame {
                     + " · E=" + service.getGraph().edgeCount());
             sidebarCost.setText(Ui.weight(service.getPrimResult().getTotalWeight())
                     + " · " + service.getPrimResult().getEdges().size() + " 边");
-            statusRight.setText("最近重建 " + Ui.millis(service.getRebuildMillis())
-                    + " · Prim = Kruskal = "
-                    + Ui.weight(service.getPrimResult().getTotalWeight()));
             String warning = service.consumeWarning();
             if (warning != null) {
-                statusLeft.setText(warning);
+                javax.swing.SwingUtilities.invokeLater(() -> Ui.error(this, warning));
             }
         } finally {
             refreshing = false;

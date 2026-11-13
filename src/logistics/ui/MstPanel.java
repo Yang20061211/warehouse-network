@@ -58,15 +58,6 @@ public final class MstPanel extends JPanel {
         tables.add(buildTableCard("Kruskal", kruskalTime, kruskalModel, Theme.TEXT_SOFT));
         add(tables, BorderLayout.CENTER);
 
-        Ui.RoundedPanel note = new Ui.RoundedPanel(new BorderLayout(), new Color(0xF7, 0xF8, 0xF6),
-                Theme.BORDER, 6);
-        note.setBorder(new EmptyBorder(11, 15, 11, 15));
-        JLabel noteText = Ui.label("两种算法选中的边可能不同，但总权值相同。"
-                + "地图和最短路径使用 Prim 树；耗时取自算法内部计时。",
-                10.3f, Theme.MUTED, Font.PLAIN);
-        note.add(noteText, BorderLayout.CENTER);
-        note.setPreferredSize(new Dimension(0, 44));
-        add(note, BorderLayout.SOUTH);
     }
 
     private JPanel buildTableCard(String algorithm, JLabel timeLabel,

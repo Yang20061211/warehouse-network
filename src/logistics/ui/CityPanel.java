@@ -12,7 +12,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Consumer;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -36,7 +35,6 @@ import logistics.model.Geo;
 public final class CityPanel extends JPanel {
 
     private final NetworkService service;
-    private final Consumer<String> status;
 
     private final CityTableModel model = new CityTableModel();
     private final JTable table = new JTable(model);
@@ -48,9 +46,8 @@ public final class CityPanel extends JPanel {
     private Ui.PillButton deleteButton;
     private boolean refreshing;
 
-    public CityPanel(NetworkService service, Consumer<String> status) {
+    public CityPanel(NetworkService service) {
         this.service = service;
-        this.status = status;
         setOpaque(false);
         setLayout(new BorderLayout(0, 14));
         add(buildToolbar(), BorderLayout.NORTH);
@@ -121,9 +118,6 @@ public final class CityPanel extends JPanel {
         tableWrap.add(Ui.scroll(table), BorderLayout.CENTER);
         tableCard.add(tableWrap, BorderLayout.CENTER);
 
-        JLabel hint = Ui.label("说明：链表按当前顺序保存；「按距离排序」会把链表结点真正重排。",
-                10f, Theme.FAINT, Font.PLAIN);
-        tableCard.add(hint, BorderLayout.SOUTH);
         body.add(tableCard, BorderLayout.CENTER);
 
         JPanel side = new JPanel();
@@ -273,10 +267,7 @@ public final class CityPanel extends JPanel {
                         return ex.getMessage();
                     }
                 });
-        if (dialog.showDialog()) {
-            status.accept("城市「" + dialog.savedCityName() + "」已加入，图与 MST 已重建（"
-                    + Ui.millis(service.getRebuildMillis()) + "）");
-        }
+        dialog.showDialog();
     }
 
     private void openEditDialog() {
@@ -294,10 +285,7 @@ public final class CityPanel extends JPanel {
                         return ex.getMessage();
                     }
                 });
-        if (dialog.showDialog()) {
-            status.accept("城市「" + oldName + "」已更新，图与 MST 已重建（"
-                    + Ui.millis(service.getRebuildMillis()) + "）");
-        }
+        dialog.showDialog();
     }
 
     private void deleteSelected() {
@@ -312,10 +300,7 @@ public final class CityPanel extends JPanel {
             return;
         }
         try {
-            if (service.removeCity(city.getName())) {
-                status.accept("城市「" + city.getName() + "」已删除，图与 MST 已重建（"
-                        + Ui.millis(service.getRebuildMillis()) + "）");
-            }
+            service.removeCity(city.getName());
         } catch (RuntimeException ex) {
             Ui.error(this, ex.getMessage());
         }
@@ -328,7 +313,6 @@ public final class CityPanel extends JPanel {
             return;
         }
         service.resetDefaults();
-        status.accept("已恢复内置 30 城，图与 MST 已重建（" + Ui.millis(service.getRebuildMillis()) + "）");
     }
 
     private void doSort() {
@@ -337,8 +321,6 @@ public final class CityPanel extends JPanel {
             return;
         }
         service.sortByDistance(pivot);
-        status.accept("双向循环链表已按到「" + pivot + "」的距离重排；图与 MST 已重建（"
-                + Ui.millis(service.getRebuildMillis()) + "）");
         refresh();
     }
 
@@ -410,8 +392,6 @@ public final class CityPanel extends JPanel {
         private final JTextField latField = new JTextField();
         private final JLabel errorLabel = new JLabel(" ");
         private final SaveHandler handler;
-        private boolean saved;
-        private String savedName;
 
         CityDialog(Window owner, String title, City existing, SaveHandler handler) {
             super(owner, title, ModalityType.APPLICATION_MODAL);
@@ -529,18 +509,11 @@ public final class CityPanel extends JPanel {
                 errorLabel.setText(error);
                 return;
             }
-            saved = true;
-            savedName = name;
             dispose();
         }
 
-        boolean showDialog() {
+        void showDialog() {
             setVisible(true);
-            return saved;
-        }
-
-        String savedCityName() {
-            return savedName;
         }
     }
 }

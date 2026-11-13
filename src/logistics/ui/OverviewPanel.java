@@ -14,7 +14,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import logistics.app.NetworkService;
 import logistics.model.City;
@@ -72,10 +71,10 @@ public final class OverviewPanel extends JPanel {
         mapCard.add(buildLegend(), BorderLayout.SOUTH);
         add(mapCard, BorderLayout.CENTER);
 
-        cityTile = new Ui.StatTile("城市节点", "—", "双向循环链表", Theme.PRIMARY);
-        edgeTile = new Ui.StatTile("光纤边", "—", "邻接表存储", Theme.TEXT_SOFT);
-        mstEdgeTile = new Ui.StatTile("MST 边数", "—", "V − 1", Theme.SUCCESS);
-        costTile = new Ui.StatTile("MST 总成本", "—", "距离单位 ≈ ×111 km", Theme.WARNING);
+        cityTile = new Ui.StatTile("城市节点", "—", "", Theme.PRIMARY);
+        edgeTile = new Ui.StatTile("光纤边", "—", "", Theme.TEXT_SOFT);
+        mstEdgeTile = new Ui.StatTile("MST 边数", "—", "", Theme.SUCCESS);
+        costTile = new Ui.StatTile("MST 总成本", "—", "", Theme.WARNING);
         averageLabel = Ui.label("—", 10.5f, Theme.MUTED, Font.PLAIN);
         longestLabel = Ui.label("—", 10.5f, Theme.MUTED, Font.PLAIN);
 
@@ -92,8 +91,6 @@ public final class OverviewPanel extends JPanel {
         side.add(buildStatsCard());
         side.add(Ui.gap(0, 14));
         side.add(buildSelectedCard());
-        side.add(Ui.gap(0, 14));
-        side.add(buildTipCard());
         side.add(javax.swing.Box.createVerticalGlue());
 
         JScrollPane sideScroll = new JScrollPane(side);
@@ -183,28 +180,6 @@ public final class OverviewPanel extends JPanel {
         return card;
     }
 
-    private JPanel buildTipCard() {
-        Ui.RoundedPanel card = new Ui.RoundedPanel(new BorderLayout(), Theme.PRIMARY_SOFT,
-                Theme.BORDER_STRONG, 6);
-        card.setBorder(new EmptyBorder(14, 16, 14, 16));
-        card.setAlignmentX(Component.LEFT_ALIGNMENT);
-        card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 150));
-
-        JLabel title = Ui.label("查询说明", 11.5f, Theme.PRIMARY_DARK, Font.BOLD);
-        card.add(title, BorderLayout.NORTH);
-        JTextArea text = new JTextArea(
-                "最短路径默认在 Prim 生成的最小生成树上查询，可在「最短路径」页切换完整网络。");
-        text.setEditable(false);
-        text.setOpaque(false);
-        text.setLineWrap(true);
-        text.setWrapStyleWord(true);
-        text.setFont(Theme.font(Font.PLAIN, 11f));
-        text.setForeground(Theme.PRIMARY_DARK);
-        text.setBorder(new EmptyBorder(6, 0, 0, 0));
-        card.add(text, BorderLayout.CENTER);
-        return card;
-    }
-
     private JPanel row(String name, JLabel value) {
         JPanel row = Ui.transparent(new BorderLayout());
         JLabel label = Ui.label(name, 10.8f, Theme.MUTED, Font.PLAIN);
@@ -219,13 +194,9 @@ public final class OverviewPanel extends JPanel {
     public void refresh() {
         Graph graph = service.getGraph();
         cityTile.setValue(String.valueOf(graph.vertexCount()));
-        cityTile.setHint("链表结点 · " + graph.vertexCount() + " 个");
         edgeTile.setValue(String.valueOf(graph.edgeCount()));
-        edgeTile.setHint("邻接表 " + graph.directedEdgeCount() + " 个边结点");
         mstEdgeTile.setValue(String.valueOf(service.getPrimResult().getEdges().size()));
         costTile.setValue(Ui.weight(service.getPrimResult().getTotalWeight()));
-        costTile.setHint(String.format(Locale.ROOT, "≈ %.0f km",
-                service.getPrimResult().getTotalWeight() * Geo.KM_PER_DEGREE));
 
         double mstSum = 0;
         double mstLongest = 0;
