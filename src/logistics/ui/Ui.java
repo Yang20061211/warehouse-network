@@ -175,11 +175,11 @@ public final class Ui {
     }
 
     public static RoundedPanel card() {
-        return new RoundedPanel(new BorderLayout(), Theme.CARD, Theme.BORDER, 16);
+        return new RoundedPanel(new BorderLayout(), Theme.CARD, Theme.BORDER, 8);
     }
 
     public static RoundedPanel softCard() {
-        return new RoundedPanel(new BorderLayout(), new Color(0xF8, 0xFA, 0xFD), Theme.BORDER, 12);
+        return new RoundedPanel(new BorderLayout(), new Color(0xF7, 0xF8, 0xF6), Theme.BORDER, 6);
     }
 
     public enum ButtonStyle {
@@ -240,11 +240,11 @@ public final class Ui {
             }
             boolean down = getModel().isPressed();
             return switch (style) {
-                case PRIMARY -> down ? new Color(0x1E, 0x40, 0xA6) : hover ? Theme.PRIMARY_DARK : Theme.PRIMARY;
-                case DARK -> down ? new Color(0x0F, 0x17, 0x2A) : hover ? new Color(0x1E, 0x29, 0x3B) : new Color(0x15, 0x1F, 0x33);
+                case PRIMARY -> down ? Theme.PRIMARY_DARK.darker() : hover ? Theme.PRIMARY_DARK : Theme.PRIMARY;
+                case DARK -> down ? new Color(0x20, 0x26, 0x22) : hover ? new Color(0x3B, 0x44, 0x3E) : Theme.TEXT_SOFT;
                 case DANGER -> down ? new Color(0xFE, 0xE2, 0xE2) : hover ? new Color(0xFE, 0xE8, 0xE8) : Theme.DANGER_SOFT;
-                case GHOST -> hover ? new Color(0xF1, 0xF5, 0xF9) : new Color(0, 0, 0, 0);
-                case SECONDARY -> hover ? new Color(0xF8, 0xFA, 0xFC) : Color.WHITE;
+                case GHOST -> hover ? new Color(0xEE, 0xF1, 0xED) : new Color(0, 0, 0, 0);
+                case SECONDARY -> hover ? new Color(0xF7, 0xF8, 0xF6) : Color.WHITE;
             };
         }
 
@@ -265,11 +265,11 @@ public final class Ui {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setColor(backgroundColor());
-            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 6, 6);
             Color border = borderColor();
             if (border.getAlpha() > 0) {
                 g2.setColor(border);
-                g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 10, 10);
+                g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 6, 6);
             }
             g2.dispose();
             super.paintComponent(g);
@@ -317,7 +317,7 @@ public final class Ui {
         public void setActive(boolean active) {
             this.active = active;
             setIcon(active ? activeIcon : idleIcon);
-            setForeground(active ? Color.WHITE : Theme.SIDEBAR_TEXT);
+            setForeground(active ? Theme.PRIMARY_DARK : Theme.SIDEBAR_TEXT);
             repaint();
         }
 
@@ -328,7 +328,7 @@ public final class Ui {
             if (active) {
                 g2.setColor(Theme.SIDEBAR_ACTIVE);
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 9, 9);
-                g2.setColor(new Color(0x60, 0xA5, 0xFA));
+                g2.setColor(Theme.PRIMARY);
                 g2.fillRoundRect(0, 11, 3, getHeight() - 22, 3, 3);
             } else if (hover) {
                 g2.setColor(Theme.SIDEBAR_ITEM);
@@ -369,7 +369,7 @@ public final class Ui {
         private final JLabel hintLabel;
 
         public StatTile(String caption, String value, String hint, Color accent) {
-            super(null, new Color(0xF8, 0xFA, 0xFD), Theme.BORDER, 12);
+            super(null, Theme.CARD, Theme.BORDER, 6);
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             setBorder(new EmptyBorder(11, 14, 11, 14));
 
