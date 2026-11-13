@@ -2,7 +2,6 @@ package logistics.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -55,10 +54,8 @@ public final class MstPanel extends JPanel {
         add(tiles, BorderLayout.NORTH);
 
         JPanel tables = Ui.transparent(new GridLayout(1, 2, 14, 0));
-        tables.add(buildTableCard("Prim", "从起点出发，每次选距当前树最近的顶点",
-                primTime, primModel, Theme.PRIMARY));
-        tables.add(buildTableCard("Kruskal", "边按权值升序，并查集判环，选够 V-1 条为止",
-                kruskalTime, kruskalModel, Theme.TEXT_SOFT));
+        tables.add(buildTableCard("Prim", primTime, primModel, Theme.PRIMARY));
+        tables.add(buildTableCard("Kruskal", kruskalTime, kruskalModel, Theme.TEXT_SOFT));
         add(tables, BorderLayout.CENTER);
 
         Ui.RoundedPanel note = new Ui.RoundedPanel(new BorderLayout(), new Color(0xF7, 0xF8, 0xF6),
@@ -72,15 +69,13 @@ public final class MstPanel extends JPanel {
         add(note, BorderLayout.SOUTH);
     }
 
-    private JPanel buildTableCard(String algorithm, String description, JLabel timeLabel,
+    private JPanel buildTableCard(String algorithm, JLabel timeLabel,
                                   EdgeTableModel model, Color accent) {
         Ui.RoundedPanel card = Ui.card();
         card.setLayout(new BorderLayout());
         card.setBorder(new EmptyBorder(15, 16, 15, 16));
 
         JPanel header = Ui.transparent(new BorderLayout());
-        JPanel title = Ui.transparent();
-        title.setLayout(new BoxLayout(title, BoxLayout.Y_AXIS));
         JPanel nameRow = Ui.transparent();
         nameRow.setLayout(new BoxLayout(nameRow, BoxLayout.X_AXIS));
         JLabel name = Ui.label(algorithm, 15.5f, Theme.TEXT, Font.BOLD);
@@ -88,13 +83,7 @@ public final class MstPanel extends JPanel {
         nameRow.add(Ui.gap(8, 0));
         nameRow.add(new Ui.BadgeLabel(algorithm.equals("Prim") ? "加顶点" : "加边",
                 accent, new Color(accent.getRed(), accent.getGreen(), accent.getBlue(), 22)));
-        nameRow.setAlignmentX(Component.LEFT_ALIGNMENT);
-        title.add(nameRow);
-        title.add(Ui.gap(0, 3));
-        JLabel desc = Ui.label(description, 10.3f, Theme.MUTED, Font.PLAIN);
-        desc.setAlignmentX(Component.LEFT_ALIGNMENT);
-        title.add(desc);
-        header.add(title, BorderLayout.WEST);
+        header.add(nameRow, BorderLayout.WEST);
         timeLabel.setHorizontalAlignment(JLabel.RIGHT);
         timeLabel.setFont(Theme.mono(11f));
         header.add(timeLabel, BorderLayout.EAST);

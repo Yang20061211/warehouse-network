@@ -69,8 +69,7 @@ public final class PathPanel extends JPanel {
         card.setBorder(new EmptyBorder(14, 18, 14, 18));
 
         JPanel header = Ui.transparent(new BorderLayout());
-        header.add(Ui.cardTitle("任意两仓最短路径", "Dijkstra · 显示路径、分段权值和耗时"),
-                BorderLayout.WEST);
+        header.add(Ui.cardTitle("任意两仓最短路径"), BorderLayout.WEST);
         header.add(pickHint, BorderLayout.EAST);
         card.add(header, BorderLayout.NORTH);
 
@@ -237,7 +236,7 @@ public final class PathPanel extends JPanel {
         card.setBorder(new EmptyBorder(16, 16, 14, 16));
 
         JPanel header = Ui.transparent(new BorderLayout());
-        header.add(Ui.cardTitle("路径可视化", "橙色为查询路径，绿色为 MST 光纤"), BorderLayout.WEST);
+        header.add(Ui.cardTitle("路径可视化"), BorderLayout.WEST);
         mapHeader.setHorizontalAlignment(JLabel.RIGHT);
         header.add(mapHeader, BorderLayout.EAST);
         card.add(header, BorderLayout.NORTH);

@@ -62,17 +62,8 @@ public final class CityPanel extends JPanel {
         card.setBorder(new EmptyBorder(13, 18, 13, 18));
         card.setLayout(new BorderLayout());
 
-        JPanel titles = Ui.transparent();
-        titles.setLayout(new BoxLayout(titles, BoxLayout.Y_AXIS));
         JLabel title = Ui.label("城市管理", 17f, Theme.TEXT, Font.BOLD);
-        title.setAlignmentX(Component.LEFT_ALIGNMENT);
-        titles.add(title);
-        titles.add(Ui.gap(0, 3));
-        JLabel sub = Ui.label("修改后重建图与 MST，并保存到 data/cities.txt",
-                10.8f, Theme.MUTED, Font.PLAIN);
-        sub.setAlignmentX(Component.LEFT_ALIGNMENT);
-        titles.add(sub);
-        card.add(titles, BorderLayout.WEST);
+        card.add(title, BorderLayout.WEST);
 
         Ui.PillButton addButton = new Ui.PillButton("＋ 新增城市", Ui.ButtonStyle.PRIMARY);
         editButton = new Ui.PillButton("编辑选中", Ui.ButtonStyle.SECONDARY);
@@ -104,7 +95,7 @@ public final class CityPanel extends JPanel {
         tableCard.setLayout(new BorderLayout());
 
         JPanel header = Ui.transparent(new BorderLayout());
-        header.add(Ui.cardTitle("链表结点", "双击一行可以直接编辑"), BorderLayout.WEST);
+        header.add(Ui.cardTitle("链表结点"), BorderLayout.WEST);
         header.add(countBadge, BorderLayout.EAST);
         tableCard.add(header, BorderLayout.NORTH);
 
@@ -154,7 +145,7 @@ public final class CityPanel extends JPanel {
 
         JPanel top = Ui.transparent();
         top.setLayout(new BoxLayout(top, BoxLayout.Y_AXIS));
-        JPanel titles = Ui.cardTitle("按距离排序", "链表就地插入排序 · 稳定 · O(n²)");
+        JPanel titles = Ui.cardTitle("按距离排序");
         titles.setAlignmentX(Component.LEFT_ALIGNMENT);
         top.add(titles);
         top.add(Ui.gap(0, 12));
@@ -446,11 +437,6 @@ public final class CityPanel extends JPanel {
             title.setFont(Theme.display(Font.BOLD, 21f));
             title.setAlignmentX(Component.LEFT_ALIGNMENT);
             top.add(title);
-            top.add(Ui.gap(0, 5));
-            JLabel sub = Ui.label("保存后立即重建完全图、MST 与最短路径缓存", 10.5f,
-                    Theme.MUTED, Font.PLAIN);
-            sub.setAlignmentX(Component.LEFT_ALIGNMENT);
-            top.add(sub);
             root.add(top, BorderLayout.NORTH);
 
             JPanel form = new JPanel();

@@ -49,7 +49,6 @@ public final class AboutPanel extends JPanel {
             </style></head><body>
 
             <h1>设计说明</h1>
-            <p class="muted">城际仓网规划系统 · 数据结构课程设计</p>
 
             <h2>一、场景与目标</h2>
             <p>某物流公司在 30 个城市之间铺设光纤专线：在保证全网连通的前提下让总成本最低，

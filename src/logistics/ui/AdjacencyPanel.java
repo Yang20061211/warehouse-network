@@ -30,7 +30,7 @@ public final class AdjacencyPanel extends JPanel {
         card.setBorder(new EmptyBorder(16, 18, 16, 18));
 
         JPanel header = Ui.transparent(new BorderLayout());
-        JPanel titlePanel = Ui.cardTitle("邻接表存储结构", "顶点数组与边结点链表，每条无向边存两次");
+        JPanel titlePanel = Ui.cardTitle("邻接表存储结构");
         header.add(titlePanel, BorderLayout.WEST);
 
         JPanel actions = Ui.transparent();

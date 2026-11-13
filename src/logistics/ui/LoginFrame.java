@@ -57,12 +57,7 @@ public final class LoginFrame extends JFrame {
         JLabel heading = Ui.label("城际仓网规划系统", 24f, Theme.TEXT, Font.BOLD);
         heading.setAlignmentX(Component.LEFT_ALIGNMENT);
         form.add(heading);
-        form.add(Ui.gap(0, 6));
-        JLabel subtitle = Ui.label("数据结构课程设计", 11.5f, Theme.MUTED, Font.PLAIN);
-        subtitle.setAlignmentX(Component.LEFT_ALIGNMENT);
-        form.add(subtitle);
-
-        form.add(Ui.gap(0, 30));
+        form.add(Ui.gap(0, 38));
         JLabel accountLabel = Ui.label("账号", 11f, Theme.TEXT_SOFT, Font.BOLD);
         accountLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         form.add(accountLabel);

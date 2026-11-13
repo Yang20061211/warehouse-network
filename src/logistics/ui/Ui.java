@@ -70,19 +70,9 @@ public final class Ui {
         return label;
     }
 
-    /** 卡片标题 + 副标题。 */
-    public static JPanel cardTitle(String title, String subtitle) {
-        JPanel panel = transparent();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        JLabel titleLabel = label(title, 15.5f, Theme.TEXT, Font.BOLD);
-        titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        panel.add(titleLabel);
-        if (subtitle != null && !subtitle.isBlank()) {
-            panel.add(gap(0, 3));
-            JLabel sub = label(subtitle, 11f, Theme.MUTED, Font.PLAIN);
-            sub.setAlignmentX(Component.LEFT_ALIGNMENT);
-            panel.add(sub);
-        }
+    public static JPanel cardTitle(String title) {
+        JPanel panel = transparent(new BorderLayout(0, 0));
+        panel.add(label(title, 15.5f, Theme.TEXT, Font.BOLD), BorderLayout.WEST);
         return panel;
     }
 

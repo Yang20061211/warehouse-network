@@ -51,7 +51,7 @@ public final class OverviewPanel extends JPanel {
         JPanel mapCard = Ui.card();
         mapCard.setBorder(new EmptyBorder(16, 16, 14, 16));
         JPanel header = Ui.transparent(new BorderLayout());
-        header.add(Ui.cardTitle("城市网络拓扑", "城市按经纬度投影，实线表示最小生成树"), BorderLayout.WEST);
+        header.add(Ui.cardTitle("城市网络拓扑"), BorderLayout.WEST);
 
         JPanel controls = Ui.transparent();
         controls.setLayout(new BoxLayout(controls, BoxLayout.X_AXIS));
@@ -141,7 +141,7 @@ public final class OverviewPanel extends JPanel {
         card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 300));
 
         JPanel title = Ui.transparent(new BorderLayout());
-        title.add(Ui.cardTitle("网络概况", "随城市数据自动更新"), BorderLayout.WEST);
+        title.add(Ui.cardTitle("网络概况"), BorderLayout.WEST);
         title.setAlignmentX(Component.LEFT_ALIGNMENT);
         card.add(title);
         card.add(Ui.gap(0, 13));
@@ -167,7 +167,7 @@ public final class OverviewPanel extends JPanel {
         card.setAlignmentX(Component.LEFT_ALIGNMENT);
         card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 210));
 
-        JPanel title = Ui.cardTitle("城市详情", "点击地图上的节点");
+        JPanel title = Ui.cardTitle("城市详情");
         title.setAlignmentX(Component.LEFT_ALIGNMENT);
         card.add(title);
         card.add(Ui.gap(0, 12));

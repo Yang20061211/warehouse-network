@@ -74,8 +74,7 @@ public final class BenchmarkPanel extends JPanel {
         card.setBorder(new EmptyBorder(15, 18, 15, 18));
 
         JPanel header = Ui.transparent(new BorderLayout());
-        header.add(Ui.cardTitle("当前网络实测",
-                "在 30 城完全图上对比 Prim 与 Kruskal；Dijkstra 使用 Prim 树"), BorderLayout.WEST);
+        header.add(Ui.cardTitle("当前网络实测"), BorderLayout.WEST);
 
         JPanel actions = Ui.transparent();
         actions.setLayout(new BoxLayout(actions, BoxLayout.X_AXIS));
@@ -114,8 +113,7 @@ public final class BenchmarkPanel extends JPanel {
 
         JPanel header = Ui.transparent(new BorderLayout(0, 8));
         JPanel titleRow = Ui.transparent(new BorderLayout());
-        titleRow.add(Ui.cardTitle("规模扩展测试", "随机连通图 · 稠密 / 稀疏 · 只统计算法内部耗时"),
-                BorderLayout.WEST);
+        titleRow.add(Ui.cardTitle("规模扩展测试"), BorderLayout.WEST);
         header.add(titleRow, BorderLayout.NORTH);
 
         JPanel middle = Ui.transparent();
@@ -176,7 +174,7 @@ public final class BenchmarkPanel extends JPanel {
         card.setBorder(new EmptyBorder(15, 16, 15, 16));
 
         JPanel header = Ui.transparent(new BorderLayout());
-        header.add(Ui.cardTitle("耗时对比", "对数纵轴 · 绿色 Prim / 灰色 Kruskal"), BorderLayout.WEST);
+        header.add(Ui.cardTitle("耗时对比"), BorderLayout.WEST);
         JLabel hint = Ui.label("单位：ms", 9.8f, Theme.FAINT, Font.PLAIN);
         header.add(hint, BorderLayout.EAST);
         card.add(header, BorderLayout.NORTH);
