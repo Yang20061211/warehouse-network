@@ -41,7 +41,7 @@
 - Consumes: 现有 `logistics.Main` 的 `--selftest` 和 `--shots <dir>` 接口。
 - Produces: 后续任务使用的 `$JDK17_HOME/bin/java`、`$JDK17_HOME/bin/javac` 和基线截图。
 
-- [ ] **Step 1: 确认分支和工作区**
+- [x] **Step 1: 确认分支和工作区**
 
 Run:
 
@@ -52,7 +52,7 @@ git status --short --branch
 
 Expected: 当前分支为 `codex/remove-ai-slop`，除设计/计划文档外没有产品代码改动。
 
-- [ ] **Step 2: 下载 arm64 JDK 17 到临时目录**
+- [x] **Step 2: 下载 arm64 JDK 17 到临时目录**
 
 Run:
 
@@ -68,7 +68,7 @@ JDK17_HOME="$(find /tmp/warehouse-jdk17 -type d -path '*/Contents/Home' -print -
 
 Expected: 输出 OpenJDK 17.x，命令退出码为 0。
 
-- [ ] **Step 3: 编译并打包**
+- [x] **Step 3: 编译并打包**
 
 Run:
 
@@ -84,7 +84,7 @@ find src -name '*.java' > /tmp/warehouse-sources.txt
 
 Expected: 编译和打包退出码均为 0。
 
-- [ ] **Step 4: 记录自检和截图基线**
+- [x] **Step 4: 记录自检和截图基线**
 
 Run:
 
@@ -101,7 +101,7 @@ diff /tmp/warehouse-cities-before.sha256 /tmp/warehouse-cities-after.sha256
 
 Expected: `--selftest` 输出 30 城、435 条无向边、870 个边结点、29 条 MST 边和 117.97；截图文件存在；数据文件哈希一致。
 
-- [ ] **Step 5: 提交设计与计划**
+- [x] **Step 5: 提交设计与计划**
 
 Run:
 
@@ -125,7 +125,7 @@ Expected: 提交只包含设计与计划文档。
 - Consumes: 现有 `Ui.PillButton`、`Ui.NavButton`、`Ui.BadgeLabel`、`Ui.StatTile`、`Ui.RoundedPanel` 和 `Theme.*` 颜色常量。
 - Produces: 中性暖灰背景、深色文字、低饱和青绿色主色、浅色侧栏和更小圆角；保留所有公开组件类名与构造器签名。
 
-- [ ] **Step 1: 先记录当前模板色和渐变**
+- [x] **Step 1: 先记录当前模板色和渐变**
 
 Run:
 
@@ -135,7 +135,7 @@ rg -n '0x3B, 0x82, 0xF6|0x25, 0x63, 0xEB|GradientPaint|RadialGradientPaint' src/
 
 Expected: 找到当前蓝色主色与登录页渐变，作为待移除目标。
 
-- [ ] **Step 2: 修改 `Theme` 的固定色值**
+- [x] **Step 2: 修改 `Theme` 的固定色值**
 
 将主题固定为：
 
@@ -162,17 +162,17 @@ Expected: 找到当前蓝色主色与登录页渐变，作为待移除目标。
 - `SIDEBAR_MUTED = #738178`
 - `SIDEBAR_ACTIVE = #D2E0D6`
 
-- [ ] **Step 3: 简化共享组件外观**
+- [x] **Step 3: 简化共享组件外观**
 
 在 `Ui` 中把卡片圆角从 `16/12` 降为 `8/6`，按钮圆角从 `10` 降为 `6`；侧栏激活项使用浅绿底和 `Theme.PRIMARY_DARK` 文字/图标，不再使用深蓝底和白色文字；表格和输入框保持清晰边框，不增加阴影或渐变。
 
-- [ ] **Step 4: 编译验证**
+- [x] **Step 4: 编译验证**
 
 Run Task 1 的 `javac` 命令。
 
 Expected: 编译通过，无缺失常量或签名错误。
 
-- [ ] **Step 5: 提交共享样式**
+- [x] **Step 5: 提交共享样式**
 
 ```bash
 git add src/logistics/ui/Theme.java src/logistics/ui/Ui.java
@@ -193,7 +193,7 @@ Expected: 提交只包含共享主题和组件样式。
 - Consumes: `Auth.login(String, String)`、`Auth.demoUser(Role)`、`MainFrame(NetworkService, User)`。
 - Produces: `LoginFrame(NetworkService service)`、`clearError()` 和 `demoLogin(Role)` 的现有公开/内部行为不变。
 
-- [ ] **Step 1: 记录待删除的官网式元素**
+- [x] **Step 1: 记录待删除的官网式元素**
 
 Run:
 
@@ -204,15 +204,15 @@ rg -n 'CITY NETWORK STUDIO|DATA STRUCTURES|欢迎登录|或使用演示账号|Gr
 
 Expected: 当前文件中这些元素均存在。
 
-- [ ] **Step 2: 改为中心单列表单**
+- [x] **Step 2: 改为中心单列表单**
 
 删除 `BrandPanel`、网络节点常量、渐变和光晕绘制。窗口改为约 `460×560`，背景使用 `Theme.BG`，表单使用白色、细边框和足够留白；标题使用“城际仓网规划系统”，副标题使用“数据结构课程设计”。
 
-- [ ] **Step 3: 保留登录行为并压低文案**
+- [x] **Step 3: 保留登录行为并压低文案**
 
 保留账号、密码、错误提示、登录按钮、管理员演示和查询员演示。删除英文品牌、课程宣传语、口号标签和重复版权信息；账号密码说明只保留一行，字号不低于 10px。
 
-- [ ] **Step 4: 编译并生成登录截图**
+- [x] **Step 4: 编译并生成登录截图**
 
 Run:
 
@@ -224,7 +224,7 @@ mkdir -p /tmp/warehouse-clean
 
 Expected: 编译通过并生成 `/tmp/warehouse-clean/login.png`；截图没有渐变、英文品牌或官网式左栏。
 
-- [ ] **Step 5: 提交登录页**
+- [x] **Step 5: 提交登录页**
 
 ```bash
 git add src/logistics/ui/LoginFrame.java
@@ -250,7 +250,7 @@ git commit -m "style: simplify login screen"
 - Consumes: Task 2 的 `Theme`/`Ui` 样式，以及现有各 Panel 构造器。
 - Produces: 不改变 `MainFrame.showCard(String)`、`setStatus(String)`、`refreshAll()` 和 `demo*` 截图接口。
 
-- [ ] **Step 1: 记录当前营销/模板文案**
+- [x] **Step 1: 记录当前营销/模板文案**
 
 Run:
 
@@ -261,15 +261,15 @@ rg -n '递进工程实现|一键入口|毫秒级|欢迎|CITY NETWORK|远低于|�
 
 Expected: 列出需要压缩或改为事实陈述的文案。
 
-- [ ] **Step 2: 简化标题栏和侧栏**
+- [x] **Step 2: 简化标题栏和侧栏**
 
 在 `MainFrame` 中删除渐变 Logo 使用，标题只保留系统名和角色信息；侧栏改为 `Theme.SIDEBAR` 浅色背景并加右侧分隔线；底部数据概况改成紧凑文本区，不再套深色卡片；保留角色导航、退出登录和状态栏。
 
-- [ ] **Step 3: 压低页面层级**
+- [x] **Step 3: 压低页面层级**
 
 各页面继续使用现有表格、地图、图表和结果区。把页面副标题改为短说明，删除口号式“工程实现”“毫秒级”宣传和重复解释；保留算法口径、操作提示和错误信息。
 
-- [ ] **Step 4: 编译、自检并生成全部截图**
+- [x] **Step 4: 编译、自检并生成全部截图**
 
 Run Task 1 的编译命令，然后：
 
@@ -282,7 +282,7 @@ Run Task 1 的编译命令，然后：
 
 Expected: 自检中的 30/435/870/29/117.97 不变；生成登录页、管理员各页面和查询员页面截图。
 
-- [ ] **Step 5: 检查最小窗口和角色隔离**
+- [x] **Step 5: 检查最小窗口和角色隔离**
 
 Run:
 
@@ -292,7 +292,7 @@ rg -n 'setMinimumSize|canEdit\\(\\)' src/logistics/ui/MainFrame.java
 
 Expected: 最小尺寸仍为 `1180×740`；城市管理和算法对比仍受 `canEdit()` 控制。
 
-- [ ] **Step 6: 提交主框架和页面清理**
+- [x] **Step 6: 提交主框架和页面清理**
 
 ```bash
 git add src/logistics/ui
@@ -314,7 +314,7 @@ git commit -m "style: remove template UI treatment"
 - Consumes: Task 2-4 完成后的实际调用关系。
 - Produces: 对外行为不变；只删除确认无引用的辅助方法、装饰分隔线和无效注释。
 
-- [ ] **Step 1: 复查候选方法是否仍无调用**
+- [x] **Step 1: 复查候选方法是否仍无调用**
 
 Run:
 
@@ -328,15 +328,15 @@ done
 
 Expected: 只出现定义或注释说明，没有产品调用。
 
-- [ ] **Step 2: 删除确认无调用的方法**
+- [x] **Step 2: 删除确认无调用的方法**
 
 删除设计文档列出的未使用方法，以及登录页和主框架不再使用后的 `Ui.LogoMark`；若视觉调整后某方法已被使用，则保留并在提交说明中记录。
 
-- [ ] **Step 3: 清理装饰性注释**
+- [x] **Step 3: 清理装饰性注释**
 
 删除 `──── ... ────` 分隔线和只重复下一行代码的注释；保留解释稳定排序、循环指针、O(V²)/O(E log E)、MST 拓扑和 Dijkstra 口径的注释。
 
-- [ ] **Step 4: 编译与自检**
+- [x] **Step 4: 编译与自检**
 
 Run Task 1 的编译命令，再运行：
 
@@ -347,7 +347,7 @@ Run Task 1 的编译命令，再运行：
 
 Expected: 编译通过，固定不变量与 Task 1 一致。
 
-- [ ] **Step 5: 提交代码清理**
+- [x] **Step 5: 提交代码清理**
 
 ```bash
 git add src
@@ -369,7 +369,7 @@ git commit -m "refactor: remove unused UI helpers and noise"
 - Consumes: Task 4 生成的最终截图、Task 5 的最终自检输出。
 - Produces: README 和报告中的功能、账号、命令、图片、性能数据均与当前分支一致。
 
-- [ ] **Step 1: 删除无依据测试声明**
+- [x] **Step 1: 删除无依据测试声明**
 
 Run:
 
@@ -379,15 +379,15 @@ rg -n '自动化测试|界面回归|服务层自动化' README.md docs/实验报
 
 Expected: 找到需要修正的现有声明。
 
-- [ ] **Step 2: 重写 README 的包装性段落**
+- [x] **Step 2: 重写 README 的包装性段落**
 
 保留项目简介、运行方式、演示账号、功能表、目录、命令和设计要点；删除口号式引文、重复强调和未验证宣传，只描述当前可执行能力。
 
-- [ ] **Step 3: 修正实验报告**
+- [x] **Step 3: 修正实验报告**
 
 把测试章节改成真实执行过的 `--selftest`、截图模式和数据不变量检查；删除仓库中不存在的自动化测试声明；将最终性能数据、日期、JDK 版本和机器信息集中记录；删除前后不一致的重复数字。
 
-- [ ] **Step 4: 替换截图**
+- [x] **Step 4: 替换截图**
 
 用 `/tmp/warehouse-clean/` 中的最终截图替换 `shots/` 对应文件，并按下列关系更新报告图片：
 
@@ -403,7 +403,7 @@ Expected: 找到需要修正的现有声明。
 
 保留 `architecture.png`、`dll.png`、`adjacency-diagram.png`，除非其内容也被发现与实际实现不一致。
 
-- [ ] **Step 5: 检查图片引用和数据恢复**
+- [x] **Step 5: 检查图片引用和数据恢复**
 
 Run:
 
@@ -421,7 +421,7 @@ diff /tmp/warehouse-cities-before.sha256 /tmp/warehouse-cities-final.sha256
 
 Expected: 没有 `MISSING` 输出；城市数据哈希与基线一致。
 
-- [ ] **Step 6: 最终验证并提交**
+- [x] **Step 6: 最终验证并提交**
 
 Run:
 

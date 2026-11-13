@@ -78,8 +78,8 @@ public final class AboutPanel extends JPanel {
                   邻接表 870 个边结点，两者量级接近；一般稀疏图选邻接表、稠密且需要频繁判边选矩阵。
                   本作业明确要求邻接表，且 MST 只保留 29 条边，邻接表在遍历邻边时更省。</li>
               <li><b>Prim 与 Kruskal 的区别？</b> 两者总权值相同。Prim 适合稠密图（O(V²)），
-                  Kruskal 适合稀疏图（O(E log E)）。实测 480 城稠密图 Prim 约 1.2 ms、
-                  Kruskal 约 18 ms；480 城稀疏图 Kruskal 反超。</li>
+                  Kruskal 适合稀疏图（O(E log E)）。本次 480 城测试中，稠密图 Prim 约 1.60 ms、
+                  Kruskal 约 22.74 ms；稀疏图两种算法都在 0.24 ms 以内，具体结果与机器和环境有关。</li>
               <li><b>角色与快速刷新？</b> 管理员可增删改城市，查询员只读查路径与网络信息；
                   每次增删改都会同步重建完全图、MST 与查询缓存，30 城约 1–5 ms。</li>
             </ol>
