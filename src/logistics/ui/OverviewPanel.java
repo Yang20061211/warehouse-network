@@ -13,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import logistics.app.NetworkService;
@@ -94,7 +95,15 @@ public final class OverviewPanel extends JPanel {
         side.add(Ui.gap(0, 14));
         side.add(buildTipCard());
         side.add(javax.swing.Box.createVerticalGlue());
-        add(side, BorderLayout.EAST);
+
+        JScrollPane sideScroll = new JScrollPane(side);
+        sideScroll.setBorder(null);
+        sideScroll.setOpaque(false);
+        sideScroll.getViewport().setOpaque(false);
+        sideScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        sideScroll.getVerticalScrollBar().setUnitIncrement(16);
+        sideScroll.setPreferredSize(new Dimension(322, 0));
+        add(sideScroll, BorderLayout.EAST);
     }
 
     private JCheckBox makeCheckBox(String text, boolean selected) {
