@@ -190,7 +190,7 @@ public final class MainFrame extends JFrame {
         sidebarCost.setFont(Theme.mono(10.5f));
         content.add(sidebarCost);
         content.add(Ui.gap(0, 8));
-        JLabel version = Ui.label("v1.0 · 2026", 8.5f, new Color(0x47, 0x55, 0x69), Font.PLAIN);
+        JLabel version = Ui.label("v0.1.0 · 2026", 8.5f, new Color(0x47, 0x55, 0x69), Font.PLAIN);
         version.setAlignmentX(Component.LEFT_ALIGNMENT);
         content.add(version);
         card.add(content, BorderLayout.CENTER);
