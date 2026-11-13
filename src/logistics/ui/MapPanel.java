@@ -398,10 +398,12 @@ public final class MapPanel extends JPanel {
         FontMetrics fm = g2.getFontMetrics();
         List<Rectangle> placed = new ArrayList<>();
         List<Rectangle> dots = new ArrayList<>();
+        final int padX = 2;
+        final int padY = 1;
         for (int i = 0; i < cities.size(); i++) {
             int x = xOf(cities.get(i).getLon());
             int y = yOf(cities.get(i).getLat());
-            dots.add(new Rectangle(x - 7, y - 7, 14, 14));
+            dots.add(new Rectangle(x - 8, y - 8, 16, 16));
         }
 
         for (int i : order) {
@@ -410,47 +412,51 @@ public final class MapPanel extends JPanel {
             int y = yOf(city.getLat());
             int tw = fm.stringWidth(city.getName());
             int th = fm.getHeight();
-            int[][] cand = {
-                    {x + 9, y - th / 2},
-                    {x - tw - 9, y - th / 2},
-                    {x - tw / 2, y - th - 8},
-                    {x - tw / 2, y + 9},
-                    {x + 8, y - th - 4},
-                    {x - tw - 8, y - th - 4},
-                    {x + 8, y + 4},
-                    {x - tw - 8, y + 4}
-            };
+            List<int[]> candidates = new ArrayList<>();
+            for (int distance : new int[]{9, 15, 22}) {
+                candidates.add(new int[]{x + distance, y - th / 2});
+                candidates.add(new int[]{x - tw - distance, y - th / 2});
+                candidates.add(new int[]{x - tw / 2, y - th - distance});
+                candidates.add(new int[]{x - tw / 2, y + distance});
+                candidates.add(new int[]{x + distance, y - th - 2});
+                candidates.add(new int[]{x - tw - distance, y - th - 2});
+                candidates.add(new int[]{x + distance, y + 2});
+                candidates.add(new int[]{x - tw - distance, y + 2});
+            }
             Rectangle chosen = null;
-            for (int[] c : cand) {
-                Rectangle rect = new Rectangle(c[0], c[1], tw, th);
-                if (rect.x < 4 || rect.y < 4 || rect.x + rect.width > w - 4
-                        || rect.y + rect.height > h - 4) {
+            Rectangle chosenPadding = null;
+            for (int[] c : candidates) {
+                Rectangle padded = new Rectangle(c[0] - padX, c[1] - padY,
+                        tw + padX * 2, th + padY * 2);
+                if (padded.x < 4 || padded.y < 4 || padded.x + padded.width > w - 4
+                        || padded.y + padded.height > h - 4) {
                     continue;
                 }
                 boolean clash = false;
                 for (Rectangle other : placed) {
-                    if (other.intersects(rect)) {
+                    if (other.intersects(padded)) {
                         clash = true;
                         break;
                     }
                 }
                 if (!clash) {
                     for (Rectangle dot : dots) {
-                        if (dot.intersects(rect)) {
+                        if (dot.intersects(padded)) {
                             clash = true;
                             break;
                         }
                     }
                 }
                 if (!clash) {
-                    chosen = rect;
+                    chosen = new Rectangle(c[0], c[1], tw, th);
+                    chosenPadding = padded;
                     break;
                 }
             }
             if (chosen == null) {
                 continue;
             }
-            placed.add(chosen);
+            placed.add(chosenPadding);
 
             boolean isPath = pathSet.contains(i);
             Color color = i == from ? START
