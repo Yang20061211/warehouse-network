@@ -1,0 +1,12 @@
+.DS_Store
+Thumbs.db
+__MACOSX/
+
+build/
+*.class
+*.jar
+
+.idea/
+.vscode/
+
+*.zip
