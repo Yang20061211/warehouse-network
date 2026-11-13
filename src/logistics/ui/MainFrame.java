@@ -145,7 +145,7 @@ public final class MainFrame extends JFrame {
     private void addNav(JPanel sidebar, String key, String text, Icons.Type iconType) {
         Ui.NavButton button = new Ui.NavButton(text,
                 Icons.of(iconType, Theme.SIDEBAR_TEXT),
-                Icons.of(iconType, Theme.PRIMARY_DARK));
+                Icons.of(iconType, Theme.TEXT));
         button.addActionListener(e -> showCard(key));
         sidebar.add(button);
         sidebar.add(Ui.gap(0, 4));
@@ -164,11 +164,11 @@ public final class MainFrame extends JFrame {
         content.add(title);
         content.add(Ui.gap(0, 8));
         sidebarStats.setAlignmentX(Component.LEFT_ALIGNMENT);
-        sidebarStats.setFont(Theme.mono(10.3f));
+        sidebarStats.setFont(Theme.font(Font.PLAIN, 11f));
         content.add(sidebarStats);
         content.add(Ui.gap(0, 5));
         sidebarCost.setAlignmentX(Component.LEFT_ALIGNMENT);
-        sidebarCost.setFont(Theme.mono(10.3f));
+        sidebarCost.setFont(Theme.font(Font.PLAIN, 11f));
         content.add(sidebarCost);
         return content;
     }
@@ -204,8 +204,8 @@ public final class MainFrame extends JFrame {
         status.setBorder(new CompoundBorder(
                 new MatteBorder(1, 0, 0, 0, Theme.BORDER),
                 new EmptyBorder(7, 20, 7, 20)));
-        statusLeft.setFont(Theme.font(Font.PLAIN, 10.3f));
-        statusRight.setFont(Theme.font(Font.PLAIN, 10.3f));
+        statusLeft.setFont(Theme.font(Font.PLAIN, 11f));
+        statusRight.setFont(Theme.font(Font.PLAIN, 11f));
         status.add(statusLeft, BorderLayout.WEST);
         status.add(statusRight, BorderLayout.EAST);
         return status;

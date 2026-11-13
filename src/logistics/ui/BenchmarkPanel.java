@@ -159,6 +159,7 @@ public final class BenchmarkPanel extends JPanel {
         table.getColumnModel().getColumn(2).setPreferredWidth(95);
         table.getColumnModel().getColumn(3).setPreferredWidth(95);
         table.getColumnModel().getColumn(4).setPreferredWidth(70);
+        Ui.alignNumericColumns(table, 0, 1, 2, 3);
         JPanel tableWrap = Ui.transparent(new BorderLayout());
         tableWrap.add(Ui.scroll(table), BorderLayout.CENTER);
         card.add(tableWrap, BorderLayout.CENTER);
@@ -189,9 +190,9 @@ public final class BenchmarkPanel extends JPanel {
 
     private void styleRadio(JRadioButton radio) {
         radio.setOpaque(false);
-        radio.setFont(Theme.font(Font.PLAIN, 10.7f));
+        radio.setFont(Theme.font(Font.PLAIN, 11f));
         radio.setForeground(Theme.MUTED);
-        radio.setFocusPainted(false);
+        radio.setFocusPainted(true);
         radio.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
@@ -385,7 +386,7 @@ public final class BenchmarkPanel extends JPanel {
             double logMin = Math.log10(min);
             double logMax = Math.log10(max);
 
-            g2.setFont(Theme.font(Font.PLAIN, 9.2f));
+            g2.setFont(Theme.font(Font.PLAIN, 11f));
             g2.setStroke(new BasicStroke(1f));
             for (int exp = (int) Math.floor(logMin); exp <= (int) Math.ceil(logMax); exp++) {
                 double value = Math.pow(10, exp);
@@ -414,22 +415,22 @@ public final class BenchmarkPanel extends JPanel {
                 drawBar(g2, center + 3, barW, row.kruskalAvgMs,
                         Theme.MUTED, top, plotH, logMin, logMax);
                 g2.setColor(Theme.MUTED);
-                g2.setFont(Theme.font(Font.PLAIN, 9.5f));
+                g2.setFont(Theme.font(Font.PLAIN, 11f));
                 String label = row.vertices + " 城";
                 g2.drawString(label, center - g2.getFontMetrics().stringWidth(label) / 2,
                         top + plotH + 17);
                 g2.setColor(Theme.FAINT);
-                g2.setFont(Theme.font(Font.PLAIN, 8.6f));
+                g2.setFont(Theme.font(Font.PLAIN, 11f));
                 String edges = row.edges + " 边";
                 g2.drawString(edges, center - g2.getFontMetrics().stringWidth(edges) / 2,
                         top + plotH + 30);
             }
 
-            g2.setFont(Theme.font(Font.BOLD, 10.5f));
+            g2.setFont(Theme.font(Font.BOLD, 11f));
             g2.setColor(Theme.PRIMARY);
             g2.fillRect(left, top - 20, 9, 9);
             g2.setColor(Theme.MUTED);
-            g2.setFont(Theme.font(Font.PLAIN, 9.5f));
+            g2.setFont(Theme.font(Font.PLAIN, 11f));
             g2.drawString("Prim", left + 14, top - 11);
             g2.setColor(Theme.MUTED);
             g2.fillRect(left + 56, top - 20, 9, 9);

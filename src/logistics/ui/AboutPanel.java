@@ -35,7 +35,7 @@ public final class AboutPanel extends JPanel {
 
     private static final String HTML = """
             <html><head><style>
-            body { font-family: 'PingFang SC'; color: #3B443E; font-size: 12px; line-height: 1.6; }
+            body { font-family: 'PingFang SC'; color: #3B443E; font-size: 13px; line-height: 1.6; }
             h1 { color: #202622; font-size: 22px; margin-bottom: 2px; }
             h2 { color: #202622; font-size: 15px; margin-top: 18px; margin-bottom: 6px; }
             p { margin-top: 4px; margin-bottom: 6px; }
@@ -44,7 +44,7 @@ public final class AboutPanel extends JPanel {
             .accent { color: #234B3D; }
             table { border-collapse: collapse; margin-top: 6px; }
             th { background: #F7F8F6; color: #4B5B51; font-size: 11px; text-align: left; }
-            td, th { border: 1px solid #D9DED8; padding: 6px 8px; font-size: 11.5px; }
+            td, th { border: 1px solid #D9DED8; padding: 6px 8px; font-size: 12.5px; }
             code { font-family: Menlo; color: #234B3D; }
             </style></head><body>
 

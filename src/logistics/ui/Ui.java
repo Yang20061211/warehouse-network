@@ -37,6 +37,7 @@ import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
 
 /**
  * 自绘组件与界面小工具。
@@ -64,7 +65,7 @@ public final class Ui {
 
     public static JLabel label(String text, float size, Color color, int style) {
         JLabel label = new JLabel(text);
-        label.setFont(Theme.font(style, size));
+        label.setFont(Theme.font(style, Math.max(11f, size)));
         label.setForeground(color);
         return label;
     }
@@ -166,6 +167,17 @@ public final class Ui {
                     repaint();
                 }
             });
+            addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    repaint();
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    repaint();
+                }
+            });
             addPropertyChangeListener("enabled", evt -> {
                 setForeground(foregroundColor());
                 repaint();
@@ -186,12 +198,11 @@ public final class Ui {
 
         private Color backgroundColor() {
             if (!isEnabled()) {
-                return new Color(0xF1, 0xF5, 0xF9);
+                return new Color(0xF0, 0xF2, 0xEF);
             }
             boolean down = getModel().isPressed();
             return switch (style) {
-                case PRIMARY -> down ? Theme.PRIMARY_DARK.darker() : hover ? Theme.PRIMARY_DARK : Theme.PRIMARY;
-                case DARK -> down ? new Color(0x20, 0x26, 0x22) : hover ? new Color(0x3B, 0x44, 0x3E) : Theme.TEXT_SOFT;
+                case PRIMARY, DARK -> down ? Theme.TEXT.darker() : hover ? Theme.TEXT_SOFT : Theme.TEXT;
                 case DANGER -> down ? new Color(0xFE, 0xE2, 0xE2) : hover ? new Color(0xFE, 0xE8, 0xE8) : Theme.DANGER_SOFT;
                 case GHOST -> hover ? new Color(0xEE, 0xF1, 0xED) : new Color(0, 0, 0, 0);
                 case SECONDARY -> hover ? new Color(0xF7, 0xF8, 0xF6) : Color.WHITE;
@@ -220,6 +231,12 @@ public final class Ui {
             if (border.getAlpha() > 0) {
                 g2.setColor(border);
                 g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 6, 6);
+            }
+            if (isFocusOwner()) {
+                g2.setColor(style == ButtonStyle.PRIMARY || style == ButtonStyle.DARK
+                        ? Color.WHITE : Theme.PRIMARY);
+                g2.setStroke(new BasicStroke(2f));
+                g2.drawRoundRect(2, 2, getWidth() - 5, getHeight() - 5, 4, 4);
             }
             g2.dispose();
             super.paintComponent(g);
@@ -262,12 +279,23 @@ public final class Ui {
                     repaint();
                 }
             });
+            addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    repaint();
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    repaint();
+                }
+            });
         }
 
         public void setActive(boolean active) {
             this.active = active;
             setIcon(active ? activeIcon : idleIcon);
-            setForeground(active ? Theme.PRIMARY_DARK : Theme.SIDEBAR_TEXT);
+            setForeground(active ? Theme.TEXT : Theme.SIDEBAR_TEXT);
             repaint();
         }
 
@@ -278,11 +306,14 @@ public final class Ui {
             if (active) {
                 g2.setColor(Theme.SIDEBAR_ACTIVE);
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 9, 9);
-                g2.setColor(Theme.PRIMARY);
-                g2.fillRoundRect(0, 11, 3, getHeight() - 22, 3, 3);
             } else if (hover) {
                 g2.setColor(Theme.SIDEBAR_ITEM);
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 9, 9);
+            }
+            if (isFocusOwner()) {
+                g2.setColor(Theme.PRIMARY);
+                g2.setStroke(new BasicStroke(2f));
+                g2.drawRoundRect(2, 2, getWidth() - 5, getHeight() - 5, 7, 7);
             }
             g2.dispose();
             super.paintComponent(g);
@@ -297,7 +328,7 @@ public final class Ui {
             super(text);
             this.background = background;
             setForeground(foreground);
-            setFont(Theme.font(Font.BOLD, 10.5f));
+            setFont(Theme.font(Font.BOLD, 11f));
             setBorder(new EmptyBorder(4, 9, 4, 9));
             setOpaque(false);
         }
@@ -383,18 +414,18 @@ public final class Ui {
         field.setForeground(Theme.TEXT);
         field.setCaretColor(Theme.PRIMARY);
         field.setBackground(Color.WHITE);
-        field.setBorder(roundedBorder(Theme.BORDER_STRONG, 10, 12, 9));
+        field.setBorder(roundedBorder(Theme.BORDER_STRONG, 6, 12, 9));
         field.setPreferredSize(new Dimension(220, 38));
         field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
         field.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                field.setBorder(roundedBorder(Theme.PRIMARY, 10, 12, 9));
+                field.setBorder(roundedBorder(Theme.PRIMARY, 6, 12, 9));
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                field.setBorder(roundedBorder(Theme.BORDER_STRONG, 10, 12, 9));
+                field.setBorder(roundedBorder(Theme.BORDER_STRONG, 6, 12, 9));
             }
         });
     }
@@ -408,7 +439,7 @@ public final class Ui {
         combo.setBackground(Color.WHITE);
         combo.setForeground(Theme.TEXT);
         combo.setBorder(BorderFactory.createCompoundBorder(
-                roundedBorder(Theme.BORDER_STRONG, 10, 8, 6),
+                roundedBorder(Theme.BORDER_STRONG, 6, 8, 6),
                 new EmptyBorder(1, 2, 1, 2)));
         combo.setPreferredSize(new Dimension(150, 36));
         combo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
@@ -425,52 +456,71 @@ public final class Ui {
     }
 
     public static void styleTable(JTable table) {
-        table.setFont(Theme.font(Font.PLAIN, 12.3f));
+        table.setFont(Theme.font(Font.PLAIN, 13f));
         table.setRowHeight(34);
         table.setShowGrid(false);
         table.setIntercellSpacing(new Dimension(0, 0));
         table.setFillsViewportHeight(true);
         table.setBackground(Color.WHITE);
         table.setForeground(Theme.TEXT);
-        table.setSelectionBackground(Theme.PRIMARY_SOFT);
+        table.setSelectionBackground(Theme.SIDEBAR_ACTIVE);
         table.setSelectionForeground(Theme.TEXT);
         table.setAutoCreateRowSorter(false);
-        table.getTableHeader().setFont(Theme.font(Font.BOLD, 11.3f));
+        table.getTableHeader().setFont(Theme.font(Font.PLAIN, 11.8f));
         table.getTableHeader().setForeground(Theme.MUTED);
-        table.getTableHeader().setBackground(new Color(0xF8, 0xFA, 0xFC));
+        table.getTableHeader().setBackground(Color.WHITE);
         table.getTableHeader().setPreferredSize(new Dimension(0, 36));
         table.getTableHeader().setReorderingAllowed(false);
         table.getTableHeader().setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Theme.BORDER));
         table.getTableHeader().setDefaultRenderer(new HeaderRenderer());
-        table.setDefaultRenderer(Object.class, new StripedCellRenderer());
-        table.setDefaultRenderer(Number.class, new StripedCellRenderer());
+        table.setDefaultRenderer(Object.class, new CellRenderer(false));
+        table.setDefaultRenderer(Number.class, new CellRenderer(true));
+    }
+
+    public static void alignNumericColumns(JTable table, int... columns) {
+        for (int index : columns) {
+            TableColumn column = table.getColumnModel().getColumn(index);
+            column.setCellRenderer(new CellRenderer(true));
+            column.setHeaderRenderer(new HeaderRenderer(true));
+        }
     }
 
     private static final class HeaderRenderer extends DefaultTableCellRenderer {
+        private final boolean rightAligned;
+
         HeaderRenderer() {
+            this(false);
+        }
+
+        HeaderRenderer(boolean rightAligned) {
+            this.rightAligned = rightAligned;
             setOpaque(true);
-            setBackground(new Color(0xF8, 0xFA, 0xFC));
+            setBackground(Color.WHITE);
             setForeground(Theme.MUTED);
-            setFont(Theme.font(Font.BOLD, 11.3f));
+            setFont(Theme.font(Font.PLAIN, 11.8f));
             setBorder(new EmptyBorder(0, 10, 0, 10));
-            setHorizontalAlignment(SwingConstants.LEFT);
+            setHorizontalAlignment(rightAligned ? SwingConstants.RIGHT : SwingConstants.LEFT);
         }
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean selected,
                                                        boolean focused, int row, int column) {
             super.getTableCellRendererComponent(table, value, selected, focused, row, column);
-            setBackground(new Color(0xF8, 0xFA, 0xFC));
+            setBackground(Color.WHITE);
             setForeground(Theme.MUTED);
             setBorder(new EmptyBorder(0, 10, 0, 10));
+            setHorizontalAlignment(rightAligned ? SwingConstants.RIGHT : SwingConstants.LEFT);
             return this;
         }
     }
 
-    private static final class StripedCellRenderer extends DefaultTableCellRenderer {
-        StripedCellRenderer() {
+    private static final class CellRenderer extends DefaultTableCellRenderer {
+        private final boolean rightAligned;
+
+        CellRenderer(boolean rightAligned) {
+            this.rightAligned = rightAligned;
             setOpaque(true);
-            setBorder(new EmptyBorder(0, 10, 0, 10));
+            setHorizontalAlignment(rightAligned ? SwingConstants.RIGHT : SwingConstants.LEFT);
         }
 
         @Override
@@ -478,12 +528,15 @@ public final class Ui {
                                                        boolean focused, int row, int column) {
             super.getTableCellRendererComponent(table, value, selected, focused, row, column);
             setFont(table.getFont());
-            setBorder(new EmptyBorder(0, 10, 0, 10));
+            setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createMatteBorder(0, 0, 1, 0, Theme.RULE),
+                    new EmptyBorder(0, 10, 0, 10)));
+            setHorizontalAlignment(rightAligned ? SwingConstants.RIGHT : SwingConstants.LEFT);
             if (selected) {
-                setBackground(Theme.PRIMARY_SOFT);
+                setBackground(Theme.SIDEBAR_ACTIVE);
                 setForeground(Theme.TEXT);
             } else {
-                setBackground(row % 2 == 0 ? Color.WHITE : new Color(0xFB, 0xFC, 0xFE));
+                setBackground(Color.WHITE);
                 setForeground(Theme.TEXT_SOFT);
             }
             return this;

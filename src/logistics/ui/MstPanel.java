@@ -96,7 +96,7 @@ public final class MstPanel extends JPanel {
         title.add(desc);
         header.add(title, BorderLayout.WEST);
         timeLabel.setHorizontalAlignment(JLabel.RIGHT);
-        timeLabel.setFont(Theme.mono(10.2f));
+        timeLabel.setFont(Theme.mono(11f));
         header.add(timeLabel, BorderLayout.EAST);
         card.add(header, BorderLayout.NORTH);
 
@@ -106,6 +106,7 @@ public final class MstPanel extends JPanel {
         table.getColumnModel().getColumn(0).setPreferredWidth(45);
         table.getColumnModel().getColumn(1).setPreferredWidth(210);
         table.getColumnModel().getColumn(2).setPreferredWidth(65);
+        Ui.alignNumericColumns(table, 0, 2);
         JPanel wrap = Ui.transparent(new BorderLayout());
         wrap.setBorder(new EmptyBorder(10, 0, 0, 0));
         wrap.add(Ui.scroll(table), BorderLayout.CENTER);

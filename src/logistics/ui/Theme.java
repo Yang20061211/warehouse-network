@@ -16,7 +16,7 @@ public final class Theme {
     public static final Color TEXT = new Color(0x20, 0x26, 0x22);
     public static final Color TEXT_SOFT = new Color(0x3B, 0x44, 0x3E);
     public static final Color MUTED = new Color(0x66, 0x73, 0x6A);
-    public static final Color FAINT = new Color(0x87, 0x91, 0x88);
+    public static final Color FAINT = new Color(0x65, 0x70, 0x67);
     public static final Color PRIMARY = new Color(0x37, 0x65, 0x53);
     public static final Color PRIMARY_DARK = new Color(0x23, 0x4B, 0x3D);
     public static final Color PRIMARY_SOFT = new Color(0xE8, 0xF0, 0xEB);
@@ -26,11 +26,12 @@ public final class Theme {
     public static final Color WARNING_SOFT = new Color(0xFF, 0xF4, 0xE1);
     public static final Color DANGER = new Color(0xB4, 0x23, 0x18);
     public static final Color DANGER_SOFT = new Color(0xFD, 0xEC, 0xEA);
-    public static final Color SIDEBAR = new Color(0xE9, 0xEE, 0xE9);
-    public static final Color SIDEBAR_ITEM = new Color(0xDD, 0xE5, 0xDE);
+    public static final Color RULE = new Color(0xEE, 0xF0, 0xED);
+    public static final Color SIDEBAR = new Color(0xED, 0xEF, 0xEC);
+    public static final Color SIDEBAR_ITEM = new Color(0xE4, 0xE7, 0xE3);
     public static final Color SIDEBAR_TEXT = new Color(0x4B, 0x5B, 0x51);
-    public static final Color SIDEBAR_MUTED = new Color(0x73, 0x81, 0x78);
-    public static final Color SIDEBAR_ACTIVE = new Color(0xD2, 0xE0, 0xD6);
+    public static final Color SIDEBAR_MUTED = new Color(0x5F, 0x6B, 0x62);
+    public static final Color SIDEBAR_ACTIVE = new Color(0xE0, 0xE4, 0xDF);
 
     private static final String FAMILY = pickFamily("PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "SansSerif");
     private static final String MONO = pickFamily("SF Mono", "Menlo", "Monaco", "Courier New");

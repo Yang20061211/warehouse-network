@@ -111,7 +111,7 @@ public final class OverviewPanel extends JPanel {
         box.setOpaque(false);
         box.setFont(Theme.font(Font.PLAIN, 11.3f));
         box.setForeground(Theme.MUTED);
-        box.setFocusPainted(false);
+        box.setFocusPainted(true);
         box.setIconTextGap(6);
         box.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
         return box;
@@ -198,7 +198,7 @@ public final class OverviewPanel extends JPanel {
         text.setOpaque(false);
         text.setLineWrap(true);
         text.setWrapStyleWord(true);
-        text.setFont(Theme.font(Font.PLAIN, 10.3f));
+        text.setFont(Theme.font(Font.PLAIN, 11f));
         text.setForeground(Theme.PRIMARY_DARK);
         text.setBorder(new EmptyBorder(6, 0, 0, 0));
         card.add(text, BorderLayout.CENTER);

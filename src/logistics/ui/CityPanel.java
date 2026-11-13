@@ -109,13 +109,13 @@ public final class CityPanel extends JPanel {
         tableCard.add(header, BorderLayout.NORTH);
 
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.getTableHeader().setFont(Theme.font(Font.BOLD, 11.3f));
         Ui.styleTable(table);
         table.getColumnModel().getColumn(0).setPreferredWidth(52);
         table.getColumnModel().getColumn(1).setPreferredWidth(110);
         table.getColumnModel().getColumn(2).setPreferredWidth(95);
         table.getColumnModel().getColumn(3).setPreferredWidth(95);
         table.getColumnModel().getColumn(4).setPreferredWidth(55);
+        Ui.alignNumericColumns(table, 0, 2, 3, 4);
         table.getSelectionModel().addListSelectionListener(e -> updateActionButtons());
         table.addMouseListener(new MouseAdapter() {
             @Override
@@ -481,7 +481,7 @@ public final class CityPanel extends JPanel {
 
             form.add(Ui.gap(0, 4));
             errorLabel.setForeground(Theme.DANGER);
-            errorLabel.setFont(Theme.font(Font.PLAIN, 10.5f));
+            errorLabel.setFont(Theme.font(Font.PLAIN, 11f));
             errorLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
             form.add(errorLabel);
             root.add(form, BorderLayout.CENTER);

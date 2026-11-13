@@ -205,7 +205,7 @@ public final class MapPanel extends JPanel {
 
     private void drawGraticule(Graphics2D g2, int w, int h) {
         g2.setStroke(new BasicStroke(1f));
-        g2.setFont(Theme.font(Font.PLAIN, 9f));
+        g2.setFont(Theme.font(Font.PLAIN, 11f));
         g2.setColor(Theme.alpha(Theme.MUTED, 70));
         for (double lon = 75; lon <= 135; lon += 5) {
             int x = xOf(lon);
@@ -393,7 +393,7 @@ public final class MapPanel extends JPanel {
         }
 
         // 标签：优先画路径点、起终点，再做碰撞检测
-        Font font = Theme.font(Font.PLAIN, 10.4f);
+        Font font = Theme.font(Font.PLAIN, 11f);
         g2.setFont(font);
         FontMetrics fm = g2.getFontMetrics();
         List<Rectangle> placed = new ArrayList<>();
@@ -491,7 +491,7 @@ public final class MapPanel extends JPanel {
         g2.drawLine(x, y + 9, x, y - 9);
         g2.drawLine(x, y - 9, x - 4, y - 3);
         g2.drawLine(x, y - 9, x + 4, y - 3);
-        g2.setFont(Theme.font(Font.BOLD, 9.5f));
+        g2.setFont(Theme.font(Font.BOLD, 11f));
         g2.drawString("N", x - 4, y + 21);
     }
 
@@ -506,7 +506,7 @@ public final class MapPanel extends JPanel {
         g2.drawLine(x1, y, x2, y);
         g2.drawLine(x1, y - 4, x1, y + 4);
         g2.drawLine(x2, y - 4, x2, y + 4);
-        g2.setFont(Theme.font(Font.PLAIN, 9.5f));
+        g2.setFont(Theme.font(Font.PLAIN, 11f));
         String text = "≈ 500 km";
         g2.drawString(text, x1 + (int) ((px - g2.getFontMetrics().stringWidth(text)) / 2), y - 7);
         g2.setColor(Theme.alpha(Theme.FAINT, 120));
@@ -534,7 +534,7 @@ public final class MapPanel extends JPanel {
         g2.setColor(Color.WHITE);
         g2.drawString(text, x + 11, y + 18);
         g2.setColor(new Color(0xD9, 0xDE, 0xD8));
-        g2.setFont(Theme.font(Font.PLAIN, 9.5f));
+        g2.setFont(Theme.font(Font.PLAIN, 11f));
         g2.drawString(sub, x + 11, y + 33);
     }
 

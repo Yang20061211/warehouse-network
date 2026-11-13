@@ -130,7 +130,7 @@ public final class PathPanel extends JPanel {
         radio.setOpaque(false);
         radio.setFont(Theme.font(Font.PLAIN, 11f));
         radio.setForeground(Theme.MUTED);
-        radio.setFocusPainted(false);
+        radio.setFocusPainted(true);
         radio.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
     }
 
@@ -151,7 +151,7 @@ public final class PathPanel extends JPanel {
         JLabel title = Ui.label("查询结果", 15.5f, Theme.TEXT, Font.BOLD);
         header.add(title, BorderLayout.WEST);
         Ui.PillButton clear = new Ui.PillButton("清空", Ui.ButtonStyle.GHOST);
-        clear.setFont(Theme.font(Font.PLAIN, 10.5f));
+        clear.setFont(Theme.font(Font.PLAIN, 11f));
         clear.addActionListener(e -> clearResult());
         header.add(clear, BorderLayout.EAST);
 
@@ -214,6 +214,7 @@ public final class PathPanel extends JPanel {
         table.getColumnModel().getColumn(0).setPreferredWidth(38);
         table.getColumnModel().getColumn(1).setPreferredWidth(250);
         table.getColumnModel().getColumn(2).setPreferredWidth(70);
+        Ui.alignNumericColumns(table, 0, 2);
         segments.add(Ui.scroll(table), BorderLayout.CENTER);
         card.add(segments, BorderLayout.CENTER);
 
@@ -221,7 +222,7 @@ public final class PathPanel extends JPanel {
         modeNote.setOpaque(false);
         modeNote.setLineWrap(true);
         modeNote.setWrapStyleWord(true);
-        modeNote.setFont(Theme.font(Font.PLAIN, 9.7f));
+        modeNote.setFont(Theme.font(Font.PLAIN, 11f));
         modeNote.setForeground(Theme.FAINT);
         modeNote.setRows(2);
         card.add(modeNote, BorderLayout.SOUTH);
