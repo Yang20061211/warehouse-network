@@ -515,8 +515,6 @@ public final class MapPanel extends JPanel {
         g2.setFont(Theme.font(Font.PLAIN, 11f));
         String text = "≈ 500 km";
         g2.drawString(text, x1 + (int) ((px - g2.getFontMetrics().stringWidth(text)) / 2), y - 7);
-        g2.setColor(Theme.alpha(Theme.FAINT, 120));
-        g2.drawString("示意图 · 按经纬度投影", 22, h - 24);
     }
 
     private void drawHover(Graphics2D g2, int w, int h) {
