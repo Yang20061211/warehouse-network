@@ -211,8 +211,6 @@ public final class MainFrame extends JFrame {
         return status;
     }
 
-    // ─────────────────────────── 公共操作 ───────────────────────────
-
     public void showCard(String key) {
         if (!navButtons.containsKey(key)) {
             return;
@@ -267,8 +265,6 @@ public final class MainFrame extends JFrame {
         dispose();
         new LoginFrame(service).setVisible(true);
     }
-
-    // ─────────────────────────── 截图脚本接口 ───────────────────────────
 
     public void demoPath(String from, String to) {
         pathPanel.demoQuery(from, to, false);

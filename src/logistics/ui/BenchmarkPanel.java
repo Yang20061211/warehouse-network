@@ -195,8 +195,6 @@ public final class BenchmarkPanel extends JPanel {
         radio.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
-    // ─────────────────────────── 运行 ───────────────────────────
-
     public void refresh() {
         remeasureCurrent();
         dijkstraTile.setValue("—");
@@ -285,8 +283,6 @@ public final class BenchmarkPanel extends JPanel {
         dijkstraTile.setHint(stats.queries + " 次查询 · 最慢 " + Ui.millis(stats.maxMs));
     }
 
-    // ─────────────────────────── 表格 ───────────────────────────
-
     private record Row(int vertices, int edges, String prim, String kruskal, String faster) {
     }
 
@@ -334,8 +330,6 @@ public final class BenchmarkPanel extends JPanel {
             };
         }
     }
-
-    // ─────────────────────────── 图表 ───────────────────────────
 
     private static final class ChartPanel extends JPanel {
         private List<Benchmark.Row> rows = List.of();

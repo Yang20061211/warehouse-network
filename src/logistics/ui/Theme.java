@@ -20,7 +20,6 @@ public final class Theme {
     public static final Color PRIMARY = new Color(0x37, 0x65, 0x53);
     public static final Color PRIMARY_DARK = new Color(0x23, 0x4B, 0x3D);
     public static final Color PRIMARY_SOFT = new Color(0xE8, 0xF0, 0xEB);
-    public static final Color SKY = new Color(0x0E, 0xA5, 0xE9);
     public static final Color SUCCESS = new Color(0x2E, 0x7D, 0x5A);
     public static final Color SUCCESS_SOFT = new Color(0xE9, 0xF4, 0xEE);
     public static final Color WARNING = new Color(0xA6, 0x63, 0x00);

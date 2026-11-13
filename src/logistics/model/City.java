@@ -41,10 +41,6 @@ public final class City {
         return new City(name, newLon, newLat);
     }
 
-    public City withName(String newName) {
-        return new City(newName, lon, lat);
-    }
-
     @Override
     public String toString() {
         return name;

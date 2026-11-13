@@ -37,8 +37,6 @@ public final class SelfTest {
         printPerformance(service);
     }
 
-    // ─────────────────────────── 阶段一 ───────────────────────────
-
     private static void printStageOne(NetworkService service) {
         System.out.println("========== 第一阶段：双向循环链表 ==========");
         CityList list = new CityList(service.snapshotCities());
@@ -78,8 +76,6 @@ public final class SelfTest {
         System.out.println();
     }
 
-    // ─────────────────────────── 阶段二 ───────────────────────────
-
     private static void printStageTwo(NetworkService service) {
         System.out.println("========== 第二阶段：邻接表存储的带权无向图 ==========");
         Graph graph = service.getGraph();
@@ -88,8 +84,6 @@ public final class SelfTest {
         System.out.println();
         System.out.println(graph.adjacencyText());
     }
-
-    // ─────────────────────────── 阶段三 ───────────────────────────
 
     private static void printStageThree(NetworkService service) {
         System.out.println("========== 第三阶段：MST 与最短路径 ==========");
@@ -169,8 +163,6 @@ public final class SelfTest {
         }
         return sb.toString();
     }
-
-    // ─────────────────────────── 性能实测 ───────────────────────────
 
     private static void printPerformance(NetworkService service) {
         System.out.println("========== 性能实测 ==========");

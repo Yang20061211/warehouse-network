@@ -277,8 +277,6 @@ public final class PathPanel extends JPanel {
         modeBadge.repaint();
     }
 
-    // ─────────────────────────── 刷新 / 查询 ───────────────────────────
-
     public void refresh() {
         if (refreshing) {
             return;

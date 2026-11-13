@@ -192,8 +192,6 @@ public final class CityPanel extends JPanel {
         return card;
     }
 
-    // ─────────────────────────── 刷新 ───────────────────────────
-
     public void refresh() {
         if (refreshing) {
             return;
@@ -273,8 +271,6 @@ public final class CityPanel extends JPanel {
         }
         return model.row(row).city;
     }
-
-    // ─────────────────────────── 操作 ───────────────────────────
 
     private void openAddDialog() {
         CityDialog dialog = new CityDialog(javax.swing.SwingUtilities.getWindowAncestor(this),
@@ -361,8 +357,6 @@ public final class CityPanel extends JPanel {
         doSort();
     }
 
-    // ─────────────────────────── 数据模型 ───────────────────────────
-
     private record RowData(int index, City city, int degree) {
     }
 
@@ -412,8 +406,6 @@ public final class CityPanel extends JPanel {
             return false;
         }
     }
-
-    // ─────────────────────────── 新增 / 编辑对话框 ───────────────────────────
 
     @FunctionalInterface
     private interface SaveHandler {

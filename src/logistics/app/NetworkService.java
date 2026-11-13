@@ -27,7 +27,7 @@ import logistics.model.Graph;
  */
 public class NetworkService {
 
-    /** 最短路径查询统计（多次运行取平均，证明毫秒级响应）。 */
+    /** 最短路径查询统计：多次运行的总耗时、平均值与最大值。 */
     public static final class QueryStats {
         public final PathResult result;
         public final double averageMillis;
@@ -61,8 +61,6 @@ public class NetworkService {
         // 避免界面刚启动时把“冷启动”误报成正常重建耗时。
         rebuild();
     }
-
-    // ─────────────────────────── 数据加载 / 保存 ───────────────────────────
 
     private void load() {
         List<City> loaded = new ArrayList<>();
@@ -127,8 +125,6 @@ public class NetworkService {
         }
     }
 
-    // ─────────────────────────── 重建 ───────────────────────────
-
     /** 重建图、Prim、Kruskal 与 MST 邻接图，并记录总耗时。 */
     public void rebuild() {
         long start = System.nanoTime();
@@ -139,8 +135,6 @@ public class NetworkService {
         mstGraph = Graph.fromEdges(cities, primResult.getEdges());
         rebuildNanos = System.nanoTime() - start;
     }
-
-    // ─────────────────────────── 城市操作 ───────────────────────────
 
     public void addCity(City city) {
         validateFields(city);
@@ -218,8 +212,6 @@ public class NetworkService {
                 && lat >= -90 && lat <= 90;
     }
 
-    // ─────────────────────────── 查询 ───────────────────────────
-
     /**
      * 任意两城最短路径。
      *
@@ -250,8 +242,6 @@ public class NetworkService {
         return new QueryStats(last, total / 1_000_000.0 / reps,
                 max / 1_000_000.0, reps);
     }
-
-    // ─────────────────────────── 访问器 ───────────────────────────
 
     public List<City> snapshotCities() {
         return cityList.toList();

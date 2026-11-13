@@ -6,23 +6,17 @@ package logistics.app;
  */
 public enum Role {
 
-    ADMIN("管理员", "城市增删改 · 重建图与 MST · 全部查询"),
-    VIEWER("查询员", "只读 · 任意两仓最短路径查询");
+    ADMIN("管理员"),
+    VIEWER("查询员");
 
     private final String label;
-    private final String description;
 
-    Role(String label, String description) {
+    Role(String label) {
         this.label = label;
-        this.description = description;
     }
 
     public String getLabel() {
         return label;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public boolean canEdit() {

@@ -164,10 +164,6 @@ public class Graph {
         return vertices.get(index).city;
     }
 
-    public Vertex vertex(int index) {
-        return vertices.get(index);
-    }
-
     public EdgeNode firstEdge(int index) {
         return vertices.get(index).first;
     }

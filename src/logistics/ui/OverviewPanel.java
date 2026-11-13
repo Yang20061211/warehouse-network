@@ -207,8 +207,6 @@ public final class OverviewPanel extends JPanel {
         return row;
     }
 
-    // ─────────────────────────── 刷新 ───────────────────────────
-
     public void refresh() {
         Graph graph = service.getGraph();
         cityTile.setValue(String.valueOf(graph.vertexCount()));

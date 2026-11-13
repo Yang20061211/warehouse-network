@@ -111,8 +111,6 @@ public final class MapPanel extends JPanel {
         addMouseMotionListener(mouse);
     }
 
-    // ─────────────────────────── 对外状态 ───────────────────────────
-
     public void setClickHandler(Consumer<Integer> clickListener) {
         this.clickListener = clickListener;
     }
@@ -154,8 +152,6 @@ public final class MapPanel extends JPanel {
     public int getSelectedIndex() {
         return selected;
     }
-
-    // ─────────────────────────── 绘制 ───────────────────────────
 
     @Override
     protected void paintComponent(Graphics g) {

@@ -46,8 +46,6 @@ public final class Ui {
     private Ui() {
     }
 
-    // ─────────────────────────── 基础布局 ───────────────────────────
-
     public static JPanel transparent() {
         JPanel panel = new JPanel();
         panel.setOpaque(false);
@@ -60,47 +58,15 @@ public final class Ui {
         return panel;
     }
 
-    public static JPanel vbox(JComponent... components) {
-        JPanel panel = transparent();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        for (JComponent component : components) {
-            component.setAlignmentX(Component.LEFT_ALIGNMENT);
-            panel.add(component);
-        }
-        return panel;
-    }
-
-    public static JPanel hbox(int gap, JComponent... components) {
-        JPanel panel = transparent();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-        for (int i = 0; i < components.length; i++) {
-            if (i > 0) {
-                panel.add(javax.swing.Box.createHorizontalStrut(gap));
-            }
-            panel.add(components[i]);
-        }
-        return panel;
-    }
-
     public static Component gap(int width, int height) {
         return javax.swing.Box.createRigidArea(new Dimension(width, height));
     }
-
-    // ─────────────────────────── 文本 ───────────────────────────
 
     public static JLabel label(String text, float size, Color color, int style) {
         JLabel label = new JLabel(text);
         label.setFont(Theme.font(style, size));
         label.setForeground(color);
         return label;
-    }
-
-    public static JLabel title(String text) {
-        return label(text, 16f, Theme.TEXT, Font.BOLD);
-    }
-
-    public static JLabel muted(String text) {
-        return label(text, 11.5f, Theme.MUTED, Font.PLAIN);
     }
 
     /** 卡片标题 + 副标题。 */
@@ -133,18 +99,6 @@ public final class Ui {
         return String.format(Locale.ROOT, "%.1f µs", ms * 1000);
     }
 
-    public static String millisShort(double ms) {
-        if (ms >= 1) {
-            return String.format(Locale.ROOT, "%.2f", ms);
-        }
-        if (ms >= 0.001) {
-            return String.format(Locale.ROOT, "%.4f", ms);
-        }
-        return String.format(Locale.ROOT, "%.1f µs", ms * 1000);
-    }
-
-    // ─────────────────────────── 卡片 / 按钮 ───────────────────────────
-
     /** 圆角面板，负责绘制背景和 1px 边框。 */
     public static class RoundedPanel extends JPanel {
         private final Color fill;
@@ -176,10 +130,6 @@ public final class Ui {
 
     public static RoundedPanel card() {
         return new RoundedPanel(new BorderLayout(), Theme.CARD, Theme.BORDER, 8);
-    }
-
-    public static RoundedPanel softCard() {
-        return new RoundedPanel(new BorderLayout(), new Color(0xF7, 0xF8, 0xF6), Theme.BORDER, 6);
     }
 
     public enum ButtonStyle {
@@ -402,46 +352,6 @@ public final class Ui {
         }
     }
 
-    /** 渐变 Logo 方块。 */
-    public static final class LogoMark extends JComponent {
-        public LogoMark(int size) {
-            setPreferredSize(new Dimension(size, size));
-            setMinimumSize(new Dimension(size, size));
-            setMaximumSize(new Dimension(size, size));
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            int w = getWidth();
-            int h = getHeight();
-            g2.setPaint(new java.awt.GradientPaint(0, 0, new Color(0x3B, 0x82, 0xF6),
-                    w, h, new Color(0x1D, 0x4E, 0xD8)));
-            g2.fillRoundRect(0, 0, w, h, Math.max(8, w / 4), Math.max(8, w / 4));
-            double s = w / 36.0;
-            int[][] pts = {
-                    {(int) (10 * s), (int) (24 * s)},
-                    {(int) (16 * s), (int) (13 * s)},
-                    {(int) (25 * s), (int) (21 * s)},
-                    {(int) (27 * s), (int) (10 * s)}
-            };
-            g2.setColor(new Color(255, 255, 255, 120));
-            g2.setStroke(new BasicStroke((float) Math.max(1.0, 1.3 * s)));
-            for (int i = 0; i < pts.length - 1; i++) {
-                g2.drawLine(pts[i][0], pts[i][1], pts[i + 1][0], pts[i + 1][1]);
-            }
-            g2.setColor(Color.WHITE);
-            for (int[] pt : pts) {
-                int r = (int) Math.max(2.0, 2.1 * s);
-                g2.fillOval(pt[0] - r, pt[1] - r, r * 2, r * 2);
-            }
-            g2.dispose();
-        }
-    }
-
-    // ─────────────────────────── 表单 / 表格 ───────────────────────────
-
     /** 圆角边框，负责文字内边距。 */
     public static Border roundedBorder(Color color, int radius, int padH, int padV) {
         return new AbstractBorder() {
@@ -580,15 +490,9 @@ public final class Ui {
         }
     }
 
-    // ─────────────────────────── 杂项 ───────────────────────────
-
     public static void copyToClipboard(String text) {
         Toolkit.getDefaultToolkit().getSystemClipboard()
                 .setContents(new StringSelection(text), null);
-    }
-
-    public static void info(Component parent, String title, String message) {
-        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
     public static void error(Component parent, String message) {
